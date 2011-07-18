@@ -1,15 +1,15 @@
 Package: Rweibo
-Type: Package
-Title: Provides an interface to the Weibo open platform
-Version: 0.0-2
-Date: 2011-04-24
-Author: Jian Li
 Maintainer: Jian Li <lijian.pku@gmail.com>
-Depends: rJava, RJSONIO
+License: GPL
+Title: Provides an interface to the Weibo open platform
+Type: Package
+LazyLoad: yes
+Author: Jian Li
 Description: This package provide an interface to sina weibo using
     OAuth
-License: GPL
-LazyLoad: yes
+Version: 0.0-3
+Date: 2011-07-19
+Depends: R (>= 2.12.0), ROAuth, RJSONIO
 Collate: 'authorization.R' 'getFriendsTimeline.R' 'getMentions.R'
     'getPublicTimeline.R' 'getUserTimeline.R' 'manageApp.R' 'ROAuth.R'
     'Rweibo-package.R' 'statuses.update.R'

@@ -5,8 +5,8 @@
 ##' \tabular{ll}{ 
 ##' Package: \tab Rweibo\cr 
 ##' Type: \tab Package\cr 
-##' Version: \tab 0.0-2\cr
-##' Date: \tab 2011-04-24\cr 
+##' Version: \tab 0.0-3\cr
+##' Date: \tab 2011-07-19\cr 
 ##' License: \tab GPL\cr 
 ##' LazyLoad: \tab yes\cr 
 ##' } 

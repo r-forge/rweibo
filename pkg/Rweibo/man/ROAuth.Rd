@@ -4,7 +4,7 @@
 \usage{ROAuth(app_name, access_name)
 }
 \description{Create an authorized OAuth object}
-\value{a java object}
+\value{an OAuth object}
 \note{There is only one OAuth needed.}
 \author{lijian <\email{lijian.pku@gmail.com}>}
 \seealso{See Also as \code{\link{authorization}}}

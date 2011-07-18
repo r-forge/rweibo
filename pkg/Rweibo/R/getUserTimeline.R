@@ -17,9 +17,10 @@
 ##' 
 ##' getUserTimeline(roauth, 5)
 ##' }
-getUserTimeline <- function(joauth, count = 20, requestURL = "http://api.t.sina.com.cn/statuses/user_timeline.json") {
-	requestURL <- paste(requestURL, "?count=", count, sep="")
-	returnthis <- .jcall(joauth, "S", "getRequest", requestURL)
-	Encoding(returnthis) <- "UTF-8"
+getUserTimeline <- function(joauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/user_timeline.json") {
+	#requestURL <- paste(requestURL, "?count=", count, sep="")
+	#returnthis <- .jcall(joauth, "S", "getRequest", requestURL)
+	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="GET")
+	#Encoding(returnthis) <- "UTF-8"
 	return(fromJSON(returnthis))
 }

@@ -1,7 +1,7 @@
 \name{getMentions}
 \alias{getMentions}
 \title{Return the authenticating user's mentions}
-\usage{getMentions(joauth, count=20,
+\usage{getMentions(joauth, params=list(),
     requestURL="http://api.t.sina.com.cn/statuses/mentions.json")
 }
 \description{Return the latest N weibos metioned the authenticating user.}

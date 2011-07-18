@@ -17,8 +17,9 @@
 ##' 
 ##' statuses.update(roauth, "hello world!")
 ##' }
-statuses.update <- function(joauth, TEXT, requestURL = "http://api.t.sina.com.cn/statuses/update.json") {
-	returnthis <- .jcall(joauth, "S", "postUpdate", requestURL, TEXT)
-	Encoding(returnthis) <- "UTF-8"
+statuses.update <- function(joauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/update.json") {
+	#returnthis <- .jcall(joauth, "S", "postUpdate", requestURL, TEXT)
+	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="POST")
+	#Encoding(returnthis) <- "UTF-8"
 	return(fromJSON(returnthis))
 }

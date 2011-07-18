@@ -1,7 +1,7 @@
 \name{statuses.update}
 \alias{statuses.update}
 \title{Post a new weibo}
-\usage{statuses.update(joauth, TEXT,
+\usage{statuses.update(joauth, params=list(),
     requestURL="http://api.t.sina.com.cn/statuses/update.json")
 }
 \description{Post a weibo as well as repost a weibo.}

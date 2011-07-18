@@ -17,9 +17,10 @@
 ##' 
 ##' getMentions(roauth, 5)
 ##' }
-getMentions <- function(joauth, count = 20, requestURL = "http://api.t.sina.com.cn/statuses/mentions.json") {
-	requestURL <- paste(requestURL, "?count=", count, sep="")
-	returnthis <- .jcall(joauth, "S", "getRequest", requestURL)
-	Encoding(returnthis) <- "UTF-8"
+getMentions <- function(joauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/mentions.json") {
+	#requestURL <- paste(requestURL, "?count=", count, sep="")
+	#returnthis <- .jcall(joauth, "S", "getRequest", requestURL)
+	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="GET")
+	#Encoding(returnthis) <- "UTF-8"
 	return(fromJSON(returnthis))
 }

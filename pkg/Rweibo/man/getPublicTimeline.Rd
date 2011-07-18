@@ -1,7 +1,7 @@
 \name{getPublicTimeline}
 \alias{getPublicTimeline}
 \title{Return the latest public weibos}
-\usage{getPublicTimeline(joauth, count=20,
+\usage{getPublicTimeline(joauth, params=list(),
     requestURL="http://api.t.sina.com.cn/statuses/public_timeline.json")
 }
 \description{Return 20 latest public weibo. The Respons is not strictly realtime, and it is cached for 60 seconds.}

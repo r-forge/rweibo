@@ -1,7 +1,7 @@
 \name{getUserTimeline}
 \alias{getUserTimeline}
 \title{Return the user's latest timeline}
-\usage{getUserTimeline(joauth, count=20,
+\usage{getUserTimeline(joauth, params=list(),
     requestURL="http://api.t.sina.com.cn/statuses/user_timeline.json")
 }
 \description{Return the authenticating user's latest weibos.}
