@@ -21,9 +21,9 @@
 ##' @keywords ROAuth
 ##' @examples \dontrun{
 ##' 
-##' timeline.ResetCount(roauth)
+##' timeline.resetCount(roauth)
 ##' }
-timeline.ResetCount <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/reset_count.json") {
+timeline.resetCount <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/reset_count.json") {
 	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="POST")
 	return(fromJSON(returnthis))
 }
