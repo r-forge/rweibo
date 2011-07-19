@@ -8,12 +8,12 @@ Author: Jian Li
 Description: This package provide an interface to sina weibo using
     OAuth
 Version: 0.0-4
-Date: 2011-07-19
+Date: 2011-07-20
 Depends: R (>= 2.12.0), ROAuth, rjson
 Collate: 'access.Show.R' 'access.update.R' 'authorization.R'
     'manageApp.R' 'ROAuth.R' 'Rweibo-package.R' 'timeline.Comments.R'
     'timeline.CommentsByMe.R' 'timeline.CommentsList.R'
-    'timeline.CommentsToMe.R' 'timeline.Counts.R' 'timeline.Emotion.R'
-    'timeline.Friends.R' 'timeline.Mentions.R' 'timeline.Public.R'
-    'timeline.Repost .R' 'timeline.RepostByMe.R'
-    'timeline.resetCount.R' 'timeline.Unread.R' 'timeline.User.R'
+    'timeline.CommentsToMe.R' 'timeline.Counts.R' 'timeline.Friends.R'
+    'timeline.Mentions.R' 'timeline.Public.R' 'timeline.Repost .R'
+    'timeline.RepostByMe.R' 'timeline.resetCount.R' 'timeline.Unread.R'
+    'timeline.User.R'
