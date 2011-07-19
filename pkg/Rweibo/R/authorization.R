@@ -10,7 +10,7 @@
 ##' @param access_name a string of your access name (the accout name or nick name of your weibo is suggested) 
 ##' @return a logical value 
 ##' @note When an on-screen prompts appear please follow it.
-##' @author lijian <\email{lijian.pku@@gmail.com}>
+##' @author lijian <\email{rweibo@@sina.com}>
 ##' @seealso See Also as \code{\link{registerApp}} \code{\link{ROAuth}}
 ##' @export
 ##' @references \url{http://open.weibo.com/wiki/index.php/Oauth}

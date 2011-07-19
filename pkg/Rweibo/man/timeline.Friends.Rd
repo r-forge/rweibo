@@ -1,7 +1,7 @@
-\name{getFriendsTimeline}
-\alias{getFriendsTimeline}
+\name{timeline.Friends}
+\alias{timeline.Friends}
 \title{Return the authenticating user's and his friends' latest weibos}
-\usage{getFriendsTimeline(roauth, params=list(),
+\usage{timeline.Friends(roauth, params=list(),
     requestURL="http://api.t.sina.com.cn/statuses/friends_timeline.json")
 }
 \description{Return latest weibo of the authenticating user and his followings. It's the same with the contents of the "Home" page when user authenticated.}
@@ -16,29 +16,27 @@ base_app \tab whether get the data based on current application. 1 is only curre
 feature \tab Return the weibos by weibo type. 0 is all type. 1 is original. 2 is picture. 3 is video. 4 is music\cr 
 }}
 \value{A list of weibos, each weibo contains: 
-\item{created_at}{create time}
-\item{id}{id} 
-\item{text}{content of this weibo}
-\item{source}{client of weibo}
+\item{created_at}{created time}
+\item{id}{weibo ID} 
+\item{text}{weibo text}
+\item{source}{weibo source}
 \item{favorited}{whether favorited}
 \item{truncated}{whether truncated}
-\item{in_reply_to_status_id}{}
-\item{in_reply_to_user_id}{}
-\item{in_reply_to_screen_name}{}
-\item{geo}{}
-\item{mid}{}
+\item{in_reply_to_status_id}{weibo ID that reply to}
+\item{in_reply_to_user_id}{Replyer ID}
+\item{in_reply_to_screen_name}{Replayer nickname}
 \item{user}{list of user information}
-\item{retweeted_status}{list of reposted information}
-\item{annotations}{}}
-\author{lijian <\email{lijian.pku@gmail.com}>}
+\item{retweeted_status}{list of reposted information, only available for a reposted weibo}
+\item{annotations}{annotations}}
+\author{lijian <\email{rweibo@sina.com}>}
 \references{\url{http://open.weibo.com/wiki/index.php/Statuses/friends_timeline/en}}
 \keyword{ROAuth}
 \arguments{\item{roauth}{a OAuth object created by \code{\link{ROAuth}}}
-\item{count}{the the returned request count}
+\item{params}{parameters list}
 \item{requestURL}{the request URL}
 }
 \examples{\dontrun{
 
-getFriendsTimeline(roauth, list(count = 5))
+timeline.Friends(roauth, list(count = 5))
 }}
 

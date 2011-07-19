@@ -1,11 +1,13 @@
 
 
 
-##' Return latest weibo of the authenticating user and his followings. It's the same with the contents of the "Home" page when user authenticated.
+##' Return the authenticating user's latest weibos.
 ##' 
 ##' The argument "params" should be a list which cantains:
 ##' 
 ##' \tabular{ll}{ 
+##' user_id \tab Return the weibos of specified ID of a user \cr 
+##' screen_name \tab Weibo nickname\cr 
 ##' since_id \tab Returns the weibos with an ID greater than the specified ID\cr 
 ##' max_id \tab Return the weibos with an ID smaller than the specified ID\cr
 ##' count \tab Specify the number of weibos return\cr 
@@ -14,39 +16,34 @@
 ##' feature \tab Return the weibos by weibo type. 0 is all type. 1 is original. 2 is picture. 3 is video. 4 is music\cr 
 ##' } 
 ##' 
-##' @title Return the authenticating user's and his friends' latest weibos
+##' @title Return the user's latest timeline
 ##' @param roauth a OAuth object created by \code{\link{ROAuth}}
 ##' @param params parameters list
 ##' @param requestURL the request URL
 ##' @return 
 ##'  A list of weibos, each weibo contains: 
-##'  \item{created_at}{create time}
-##'  \item{id}{id} 
-##'  \item{text}{content of this weibo}
-##'  \item{source}{client of weibo}
+##'  \item{created_at}{created time}
+##'  \item{id}{weibo ID} 
+##'  \item{text}{weibo text}
+##'  \item{source}{weibo source}
 ##'  \item{favorited}{whether favorited}
 ##'  \item{truncated}{whether truncated}
-##'  \item{in_reply_to_status_id}{}
-##'  \item{in_reply_to_user_id}{}
-##'  \item{in_reply_to_screen_name}{}
-##'  \item{geo}{}
-##'  \item{mid}{}
+##'  \item{in_reply_to_status_id}{weibo ID that reply to}
+##'  \item{in_reply_to_user_id}{Replyer ID}
+##'  \item{in_reply_to_screen_name}{Replayer nickname}
 ##'  \item{user}{list of user information}
-##'  \item{retweeted_status}{list of reposted information}
-##'  \item{annotations}{}
+##'  \item{retweeted_status}{list of reposted information, only available for a reposted weibo}
+##'  \item{annotations}{annotations}
 ##'  
-##' @author lijian <\email{lijian.pku@@gmail.com}>
+##' @author lijian <\email{rweibo@@sina.com}>
 ##' @export
-##' @references \url{http://open.weibo.com/wiki/index.php/Statuses/friends_timeline/en}
+##' @references \url{http://open.weibo.com/wiki/index.php/Statuses/user_timeline/en}
 ##' @keywords ROAuth
 ##' @examples \dontrun{
 ##' 
-##' getFriendsTimeline(roauth, list(count = 5))
+##' timeline.User(roauth, list(screen_name = "rweibo", count = 5))
 ##' }
-getFriendsTimeline <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/friends_timeline.json") {
-	#requestURL <- paste(requestURL, "?count=", count, sep="")
-	#returnthis <- .jcall(joauth, "S", "getRequest", requestURL)
+timeline.User <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/user_timeline.json") {
 	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="GET")
-	#Encoding(returnthis) <- "UTF-8"
 	return(fromJSON(returnthis))
 }

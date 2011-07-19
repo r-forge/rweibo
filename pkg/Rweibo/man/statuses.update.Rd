@@ -6,10 +6,10 @@
 }
 \description{Post a weibo as well as repost a weibo.}
 \value{a feedback list}
-\author{lijian <\email{lijian.pku@gmail.com}>}
+\author{lijian <\email{rweibo@sina.com}>}
 \references{\url{http://open.weibo.com/wiki/index.php/Statuses/update/en}}
 \keyword{ROAuth}
-\arguments{\item{joauth}{a java object created by "ROAuth"}
+\arguments{\item{roauth}{a OAuth object created by \code{\link{ROAuth}}}
 \item{TEXT}{the content you want to post}
 \item{requestURL}{the request URL}
 }

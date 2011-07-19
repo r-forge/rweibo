@@ -6,7 +6,7 @@
 \description{Create an authorized OAuth object}
 \value{an OAuth object}
 \note{There is only one OAuth needed.}
-\author{lijian <\email{lijian.pku@gmail.com}>}
+\author{lijian <\email{rweibo@sina.com}>}
 \seealso{See Also as \code{\link{authorization}}}
 \references{\url{http://open.weibo.com/wiki/index.php/Oauth}}
 \keyword{ROAuth}

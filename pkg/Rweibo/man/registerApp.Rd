@@ -26,7 +26,7 @@ listApp(app_name)
 
 }
 \note{You should register an application on sina firstly.}
-\author{lijian <\email{lijian.pku@gmail.com}>}
+\author{lijian <\email{rweibo@sina.com}>}
 \seealso{See Also as \code{\link{authorization}}}
 \references{\url{http://open.weibo.com/}}
 \keyword{application}

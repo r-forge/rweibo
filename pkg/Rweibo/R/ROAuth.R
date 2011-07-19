@@ -9,7 +9,7 @@
 ##' @param access_name a string of your access name
 ##' @return an OAuth object
 ##' @note There is only one OAuth needed.
-##' @author lijian <\email{lijian.pku@@gmail.com}>
+##' @author lijian <\email{rweibo@@sina.com}>
 ##' @seealso See Also as \code{\link{authorization}}
 ##' @export
 ##' @references \url{http://open.weibo.com/wiki/index.php/Oauth}
@@ -41,7 +41,7 @@ ROAuth <- function(app_name, access_name) {
 			stop(paste(access_name, "doesn't exist, please use '.addAccess' to create"))
 		}
 	} else {
-		stop(paste(app_name, "doesn't exist, please use '.registerApp' to create"))
+		stop(paste(app_name, "doesn't exist, please use 'registerApp' to create"))
 	}
 	#return(jobj)
 	return(oauthobj)

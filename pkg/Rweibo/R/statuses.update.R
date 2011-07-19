@@ -9,7 +9,7 @@
 ##' @param TEXT the content you want to post
 ##' @param requestURL the request URL
 ##' @return a feedback list
-##' @author lijian <\email{lijian.pku@@gmail.com}>
+##' @author lijian <\email{rweibo@@sina.com}>
 ##' @export
 ##' @references \url{http://open.weibo.com/wiki/index.php/Statuses/update/en}
 ##' @keywords ROAuth

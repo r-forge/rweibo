@@ -12,7 +12,7 @@
 ##' @param app_secret secret of an application
 ##' @return a logical value 
 ##' @note You should register an application on sina firstly.
-##' @author lijian <\email{lijian.pku@@gmail.com}>
+##' @author lijian <\email{rweibo@@sina.com}>
 ##' @seealso See Also as \code{\link{authorization}}
 ##' @export
 ##' @references \url{http://open.weibo.com/}
