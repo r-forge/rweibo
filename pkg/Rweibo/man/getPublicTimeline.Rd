@@ -9,7 +9,7 @@
 \author{lijian <\email{lijian.pku@gmail.com}>}
 \references{\url{http://open.weibo.com/wiki/index.php/Statuses/public_timeline/en}}
 \keyword{ROAuth}
-\arguments{\item{joauth}{a java object created by "ROAuth"}
+\arguments{\item{roauth}{a OAuth object created by "ROAuth"}
 \item{count}{the the returned request count}
 \item{requestURL}{the request URL}
 }

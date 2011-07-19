@@ -42,7 +42,7 @@ registerApp <- function(app_key, app_secret, app_name = app_key) {
 modifyApp <- function(app_name, app_key, app_secret) {
 	apppath <- system.file(package = "Rweibo", "oauth")
 	if (app_name %in% list.files(apppath)) {
-		applist <- fromJSON(file.path(apppath, app_name))
+		applist <- fromJSON(file=file.path(apppath, app_name))
 		applist$app_key <- app_key
 		applist$app_secret <- app_secret
 		appfile <- file(file.path(apppath, app_name) , open = "w" )
@@ -76,7 +76,7 @@ deleteApp <- function(app_name) {
 listApp <- function(app_name) {
 	apppath <- system.file(package = "Rweibo", "oauth")
 	if (app_name %in% list.files(apppath)) {
-		applist <- fromJSON(file.path(apppath, app_name))
+		applist <- fromJSON(file=file.path(apppath, app_name))
 		return(applist)
 	} else {
 		stop(paste(app_name, "doesn't exist, please use 'registerApp' to create"))
@@ -86,7 +86,7 @@ listApp <- function(app_name) {
 .addAccess <- function(app_name, access_name, access_token, access_secret) {
 	apppath <- system.file(package = "Rweibo", "oauth")
 	if (app_name %in% list.files(apppath)) {
-		applist <- fromJSON(file.path(apppath, app_name))
+		applist <- fromJSON(file=file.path(apppath, app_name))
 		if (access_name %in% names(applist$app_token)) {
 			stop(paste("The access", access_name, "has existed, please use '.modifyAccess' to make change."))
 		} else {
@@ -104,7 +104,7 @@ listApp <- function(app_name) {
 .modifyAccess <- function(app_name, access_name, access_token, access_secret) {
 	apppath <- system.file(package = "Rweibo", "oauth")
 	if (app_name %in% list.files(apppath)) {
-		applist <- fromJSON(file.path(apppath, app_name))
+		applist <- fromJSON(file=file.path(apppath, app_name))
 		if (access_name %in% names(applist$app_token)) {
 			applist$app_token[[access_name]] <- list(token_key = access_token, token_secret = access_secret)
 			appfile <- file(file.path(apppath, app_name) , open = "w" )
@@ -122,7 +122,7 @@ listApp <- function(app_name) {
 .deleteAccess <- function(app_name, access_name) {
 	apppath <- system.file(package = "Rweibo", "oauth")
 	if (app_name %in% list.files(apppath)) {
-		applist <- fromJSON(file.path(apppath, app_name))
+		applist <- fromJSON(file=file.path(apppath, app_name))
 		if (access_name %in% names(applist$app_token)) {
 			applist$app_token[[access_name]] <- NULL
 			appfile <- file(file.path(apppath, app_name) , open = "w" )

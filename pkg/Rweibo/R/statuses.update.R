@@ -5,7 +5,7 @@
 ##' 
 ##' 
 ##' @title Post a new weibo
-##' @param joauth a java object created by "ROAuth"
+##' @param roauth a OAuth object created by \code{\link{ROAuth}}
 ##' @param TEXT the content you want to post
 ##' @param requestURL the request URL
 ##' @return a feedback list

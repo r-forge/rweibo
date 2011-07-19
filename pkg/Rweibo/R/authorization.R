@@ -24,7 +24,7 @@ authorization <- function(app_name, access_name) {
 	apppath <- system.file(package = "Rweibo", "oauth")
 	#libpath <- system.file(package = "Rweibo", "java")
 	if (app_name %in% list.files(apppath)) {
-		applist <- fromJSON(file.path(apppath, app_name))
+		applist <- fromJSON(file=file.path(apppath, app_name))
 		app_key <- applist$app_key
 		app_secret <- applist$app_secret
 		#.jinit(file.path(libpath, "Scribe.jar"))

@@ -22,7 +22,7 @@ ROAuth <- function(app_name, access_name) {
 	apppath <- system.file(package = "Rweibo", "oauth")
 	#libpath <- system.file(package = "Rweibo", "java")
 	if (app_name %in% list.files(apppath)) {
-		applist <- fromJSON(file.path(apppath, app_name))
+		applist <- fromJSON(file=file.path(apppath, app_name))
 		if (access_name %in% names(applist$app_token)) {
 			#.jinit(file.path(libpath, "Scribe.jar"))
 			#jobj <- .jnew("org/rweibo/RweiboOAuth", applist$app_key, applist$app_secret, applist$app_token[[access_name]]$token_key, applist$app_token[[access_name]]$token_secret)

@@ -5,7 +5,7 @@
 ##' 
 ##' 
 ##' @title Return the user's latest timeline
-##' @param joauth a java object created by "ROAuth"
+##' @param roauth a OAuth object created by \code{\link{ROAuth}}
 ##' @param count the the returned request count
 ##' @param requestURL the request URL
 ##' @return a result list

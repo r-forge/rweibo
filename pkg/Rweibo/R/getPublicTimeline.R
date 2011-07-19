@@ -5,8 +5,8 @@
 ##' 
 ##' 
 ##' @title Return the latest public weibos
-##' @param joauth a java object created by "ROAuth"
-##' @param count the the returned request count
+##' @param roauth a OAuth object created by "ROAuth"
+##' @param params parameters list
 ##' @param requestURL the request URL
 ##' @return a result list
 ##' @author lijian <\email{lijian.pku@@gmail.com}>

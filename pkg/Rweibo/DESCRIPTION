@@ -7,9 +7,9 @@ LazyLoad: yes
 Author: Jian Li
 Description: This package provide an interface to sina weibo using
     OAuth
-Version: 0.0-3
+Version: 0.0-4
 Date: 2011-07-19
-Depends: R (>= 2.12.0), ROAuth, RJSONIO
+Depends: R (>= 2.12.0), ROAuth, rjson
 Collate: 'authorization.R' 'getFriendsTimeline.R' 'getMentions.R'
     'getPublicTimeline.R' 'getUserTimeline.R' 'manageApp.R' 'ROAuth.R'
     'Rweibo-package.R' 'statuses.update.R'
