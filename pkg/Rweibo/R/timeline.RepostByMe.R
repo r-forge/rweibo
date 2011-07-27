@@ -41,6 +41,7 @@
 ##' timeline.RepostByMe(roauth, list(id = 1318558807, count = 5))
 ##' }
 timeline.RepostByMe <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/repost_by_me.json") {
-	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="GET")
+	returnthis <- .get(requestURL, roauth@appKey, roauth@appSecret,
+			roauth@oauthKey, roauth@oauthSecret, params=params)
 	return(fromJSON(returnthis))
 }

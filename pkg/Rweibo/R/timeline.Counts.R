@@ -28,6 +28,7 @@
 ##' timeline.Counts(roauth, list(ids = "14762313082,14762313083"))
 ##' }
 timeline.Counts <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/counts.json") {
-	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="GET")
+	returnthis <- .get(requestURL, roauth@appKey, roauth@appSecret,
+			roauth@oauthKey, roauth@oauthSecret, params=params)
 	return(fromJSON(returnthis))
 }

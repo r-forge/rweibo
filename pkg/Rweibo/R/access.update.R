@@ -40,6 +40,7 @@
 ##' access.update(roauth, list(status = "hello world"))
 ##' }
 access.update <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/update.json") {
-	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="POST")
+	returnthis <- .post(requestURL, roauth@appKey, roauth@appSecret,
+			roauth@oauthKey, roauth@oauthSecret, params=params, postform=TRUE)
 	return(fromJSON(returnthis))
 }

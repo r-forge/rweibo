@@ -38,6 +38,7 @@
 ##' timeline.Public(roauth, list(count = 5, base_app = 1))
 ##' }
 timeline.Public <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/public_timeline.json") {
-	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="GET")
+	returnthis <- .get(requestURL, roauth@appKey, roauth@appSecret,
+			roauth@oauthKey, roauth@oauthSecret, params=params)
 	return(fromJSON(returnthis))
 }

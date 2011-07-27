@@ -42,9 +42,7 @@
 ##' timeline.Friends(roauth, list(count = 5))
 ##' }
 timeline.Friends <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/friends_timeline.json") {
-	#requestURL <- paste(requestURL, "?count=", count, sep="")
-	#returnthis <- .jcall(joauth, "S", "getRequest", requestURL)
-	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="GET")
-	#Encoding(returnthis) <- "UTF-8"
+	returnthis <- .get(requestURL, roauth@appKey, roauth@appSecret,
+			roauth@oauthKey, roauth@oauthSecret, params=params)
 	return(fromJSON(returnthis))
 }

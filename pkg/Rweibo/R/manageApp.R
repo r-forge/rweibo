@@ -83,14 +83,14 @@ listApp <- function(app_name) {
 	}
 }
 
-.addAccess <- function(app_name, access_name, access_token, access_secret) {
+.addAccess <- function(app_name, access_name, access_token, access_secret, access_user) {
 	apppath <- system.file(package = "Rweibo", "oauth")
 	if (app_name %in% list.files(apppath)) {
 		applist <- fromJSON(file=file.path(apppath, app_name))
 		if (access_name %in% names(applist$app_token)) {
 			stop(paste("The access", access_name, "has existed, please use '.modifyAccess' to make change."))
 		} else {
-			applist$app_token[[access_name]] <- list(token_key = access_token, token_secret = access_secret)
+			applist$app_token[[access_name]] <- list(token_key = access_token, token_secret = access_secret, token_user = access_user)
 			appfile <- file(file.path(apppath, app_name) , open = "w" )
 			writeLines(toJSON(applist), appfile)
 			close(appfile)
@@ -101,12 +101,12 @@ listApp <- function(app_name) {
 	return(TRUE)
 }
 
-.modifyAccess <- function(app_name, access_name, access_token, access_secret) {
+.modifyAccess <- function(app_name, access_name, access_token, access_secret, access_user) {
 	apppath <- system.file(package = "Rweibo", "oauth")
 	if (app_name %in% list.files(apppath)) {
 		applist <- fromJSON(file=file.path(apppath, app_name))
 		if (access_name %in% names(applist$app_token)) {
-			applist$app_token[[access_name]] <- list(token_key = access_token, token_secret = access_secret)
+			applist$app_token[[access_name]] <- list(token_key = access_token, token_secret = access_secret, token_user = access_user)
 			appfile <- file(file.path(apppath, app_name) , open = "w" )
 			writeLines(toJSON(applist), appfile)
 			close(appfile)

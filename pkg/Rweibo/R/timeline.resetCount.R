@@ -24,6 +24,7 @@
 ##' timeline.resetCount(roauth)
 ##' }
 timeline.resetCount <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/reset_count.json") {
-	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="POST")
+	returnthis <- .post(requestURL, roauth@appKey, roauth@appSecret,
+			roauth@oauthKey, roauth@oauthSecret, params=params)
 	return(fromJSON(returnthis))
 }

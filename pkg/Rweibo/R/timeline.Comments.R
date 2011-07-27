@@ -34,6 +34,7 @@
 ##' timeline.Comments(roauth, list(count = 5))
 ##' }
 timeline.Comments <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/comments_timeline.json") {
-	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="GET")
+	returnthis <- .get(requestURL, roauth@appKey, roauth@appSecret,
+			roauth@oauthKey, roauth@oauthSecret, params=params)
 	return(fromJSON(returnthis))
 }

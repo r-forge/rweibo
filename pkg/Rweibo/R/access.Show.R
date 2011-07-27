@@ -37,6 +37,7 @@
 ##' access.Show(roauth, list(id = 14762313082))
 ##' }
 access.Show <- function(roauth, params=list(), requestURL = "http://api.t.sina.com.cn/statuses/show/:id.json") {
-	returnthis <- roauth$OAuthRequest(requestURL, params = params, method="GET")
+	returnthis <- .get(requestURL, roauth@appKey, roauth@appSecret,
+			roauth@oauthKey, roauth@oauthSecret, params=params)
 	return(fromJSON(returnthis))
 }
