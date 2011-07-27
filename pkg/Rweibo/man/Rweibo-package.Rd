@@ -6,8 +6,8 @@
 \details{\tabular{ll}{ 
 Package: \tab Rweibo\cr 
 Type: \tab Package\cr 
-Version: \tab 0.0-4\cr
-Date: \tab 2011-07-20\cr 
+Version: \tab 0.0-5\cr
+Date: \tab 2011-07-28\cr 
 License: \tab GPL\cr 
 LazyLoad: \tab yes\cr 
 } 
