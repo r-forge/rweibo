@@ -5,7 +5,7 @@ Title: Provides an interface to the Weibo open platform
 Type: Package
 LazyLoad: yes
 Author: Jian Li
-Description: This package provide an interface to sina weibo using
+Description: This package provides an interface to sina weibo using
     OAuth
 Version: 0.0-5
 Date: 2011-07-28
