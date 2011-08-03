@@ -1,0 +1,10 @@
+Package: rAnalysisCN
+Type: Package
+Title: Segment Chinese Words
+Version: 1.0
+Date: 2010-11-24
+Author: Jian Lee
+Maintainer: Jian Lee <jian.li@lijian001.com>
+Description: A package to segment Chinese words
+License: GPL
+LazyLoad: yes
