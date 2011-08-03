@@ -1,10 +1,12 @@
-Package: rAnalysisCN
-Type: Package
-Title: Segment Chinese Words
-Version: 1.0
-Date: 2010-11-24
-Author: Jian Lee
-Maintainer: Jian Lee <jian.li@lijian001.com>
-Description: A package to segment Chinese words
+Package: RsegWord
+Maintainer: Jian Li <rweibo@sina.com>
 License: GPL
+Title: Segment Chinese sentence
+Type: Package
 LazyLoad: yes
+Author: Jian Li
+Description: A package to segment Chinese sentence
+Version: 0.0-1
+Date: 2011-08-03
+Depends: rJava
+Collate: 'createAnalyzer.R' 'RsegWord-package.R' 'segWord.R'

@@ -1,1 +1,2 @@
-export(tra2Sim.char)
+export(createAnalyzer)
+export(segWord)
