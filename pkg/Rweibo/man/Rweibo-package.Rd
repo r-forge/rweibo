@@ -6,8 +6,8 @@
 \details{\tabular{ll}{ 
 Package: \tab Rweibo\cr 
 Type: \tab Package\cr 
-Version: \tab 0.0-5\cr
-Date: \tab 2011-07-28\cr 
+Version: \tab 0.1-1\cr
+Date: \tab 2012-10-05\cr 
 License: \tab GPL\cr 
 LazyLoad: \tab yes\cr 
 } 
@@ -18,9 +18,7 @@ On the open platform website, developers or websites can create own creative app
 \alias{Rweibo-package}
 \alias{Rweibo}
 \docType{package}
-\author{Jian li
-
-Maintainer: Jian Li <rweibo@sina.com>}
+\author{Jian li <rweibo@sina.com>}
 \references{\url{http://open.weibo.com/}}
 \keyword{package}
 

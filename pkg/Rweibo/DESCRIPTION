@@ -1,21 +1,13 @@
 Package: Rweibo
-Maintainer: Jian Li <rweibo@sina.com>
 License: GPL
 Title: Provides an interface to the Weibo open platform
 Type: Package
 LazyLoad: yes
-Author: Jian Li
+Author: Jian Li <rweibo@sina.com>
+Maintainer: Jian Li <rweibo@sina.com>
 Description: This package provides an interface to sina weibo using
-    OAuth
-Version: 0.0-5
-Date: 2011-07-28
-Depends: RCurl, digest, rjson
-Collate: 'access.Show.R' 'access.update.R' 'account.RateLimit.R'
-    'createOAuth.R' 'manageApp.R' 'Rweibo-package.R' 'search.Content.R'
-    'timeline.Comments.R' 'timeline.CommentsByMe.R'
-    'timeline.CommentsList.R' 'timeline.CommentsToMe.R'
-    'timeline.Counts.R' 'timeline.Friends.R' 'timeline.Mentions.R'
-    'timeline.Public.R' 'timeline.Repost .R' 'timeline.RepostByMe.R'
-    'timeline.resetCount.R' 'timeline.Unread.R' 'timeline.User.R'
-    'user.Followers.R' 'user.Friends.R' 'user.Hot.R' 'user.Show.R'
-    'user.Suggestions.R'
+    OAuth 2.0
+Version: 0.1-1
+Date: 2012-10-05
+Depends: R (>= 2.12.0), methods, utils, RCurl, rjson
+

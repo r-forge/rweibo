@@ -1,27 +1,13 @@
-export(access.Show)
-export(access.update)
-export(account.RateLimit)
-export(createOAuth)
-export(registerApp)
-export(modifyApp)
-export(deleteApp)
-export(listApp)
-export(search.Content)
-export(timeline.Comments)
-export(timeline.CommentsByMe)
-export(timeline.CommentsList)
-export(timeline.CommentsToMe)
-export(timeline.Counts)
-export(timeline.Friends)
-export(timeline.Mentions)
-export(timeline.Public)
-export(timeline.Repost)
-export(timeline.RepostByMe)
-export(timeline.resetCount)
-export(timeline.Unread)
-export(timeline.User)
-export(user.Followers)
-export(user.Friends)
-export(user.Hot)
-export(user.Show)
-export(user.Suggestions)
+# Default NAMESPACE created by R
+# Remove the previous line if you edit this file
+
+# Export all names
+exportPattern(".")
+
+# Import all packages listed as Imports or Depends
+import(
+  methods,
+  utils,
+  RCurl,
+  rjson
+)
