@@ -17,13 +17,13 @@ res2 <- statuses.friends_timeline(roauth, count = 5)
 res2
 
 # post a new weibo
-res3 <- statuses.update(roauth, status = "你好啊*!@#$&=+")
+res3 <- statuses.update(roauth, status = "hello word*!@#$&=+")
 
 # repost a weibo
-res4 <- statuses.repost(roauth, id = res3$idstr, status = "转一个啊")
+res4 <- statuses.repost(roauth, id = res3$idstr, status = "test repost")
 
 # post a comment to a weibo
-res5 <- comments.create(roauth, id = res4$idstr, comment = "评论一下啊")
+res5 <- comments.create(roauth, id = res4$idstr, comment = "test comment")
 
 # search content
 res6 <- web.search.content("Rweibo", page = 3, combinewith = NULL, sleepsd = 0)

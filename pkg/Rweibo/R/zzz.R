@@ -22,14 +22,17 @@
 	options(redirect_uri = struri)
 	packageStartupMessage(paste("# The port of help server was set to", getOption("help.ports")))
 	
-	helpport <- try(tools:::startDynamicHelp(), silent = TRUE)
-	if (inherits(helpport, "try-error")) {
-		tools:::startDynamicHelp(start = FALSE)
-		tools:::startDynamicHelp()
-	}
-	if (!file.exists(file.path(system.file(package = "Rweibo"), "doc", "callback.html"))) {
-		file.copy(file.path(system.file(package = "Rweibo"), "config", "callback.html"), 
-				file.path(system.file(package = "Rweibo"), "doc"))
-	}
+	if (interactive()) {
+		helpport <- try(tools:::startDynamicHelp(), silent = TRUE)
+		if (inherits(helpport, "try-error")) {
+			tools:::startDynamicHelp(start = FALSE)
+			tools:::startDynamicHelp()
+		}
 		
+		if (!file.exists(file.path(system.file(package = "Rweibo"), "doc", "callback.html"))) {
+			file.copy(file.path(system.file(package = "Rweibo"), "config", "callback.html"), 
+					file.path(system.file(package = "Rweibo"), "doc"))
+		}
+	}
+
 }
