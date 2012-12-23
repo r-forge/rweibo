@@ -25,3 +25,10 @@ res4 <- statuses.repost(roauth, id = res3$idstr, status = "转一个啊")
 # post a comment to a weibo
 res5 <- comments.create(roauth, id = res4$idstr, comment = "评论一下啊")
 
+# search content
+res6 <- web.search.content("Rweibo", page = 3, combinewith = NULL, sleepsd = 0)
+
+res7 <- web.search.content("Rweibo", page = 5, combinewith = res6, sleepsd = 0)
+
+
+

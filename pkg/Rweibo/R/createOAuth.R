@@ -24,9 +24,12 @@ createOAuth <- function(app_name, access_name, forcelogin = FALSE) {
 	if (app_name %in% list.files(apppath)) {
 		applist <- fromJSON(file=file.path(apppath, app_name))
 		
-		isExpires <- as.numeric(difftime(Sys.time(), as.POSIXlt(applist$app_token[[access_name]]$token_time, 
+		isExpires <- TRUE
+		try(
+			isExpires <- as.numeric(difftime(Sys.time(), as.POSIXlt(applist$app_token[[access_name]]$token_time, 
 								format = "%Y-%m-%d %H:%M:%S"), units = "secs")) > 
-								as.numeric(applist$app_token[[access_name]]$expires_in)
+								as.numeric(applist$app_token[[access_name]]$expires_in), silent = TRUE
+			)
 		
 		if (! access_name %in% names(applist$app_token) || forcelogin || isExpires) {
 			.authorization(app_name, access_name, forcelogin = forcelogin)
