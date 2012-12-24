@@ -18,22 +18,27 @@ segmentCN <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv)
 		if (nature) {
 			OUT <- .jcall(analyzer, "S", "segWordNature", strwords)
 			Encoding(OUT) <- "UTF-8"
-			OUT <- strsplit(OUT, " ")[[1]]
-			OUT <- gsub(":.*$", "", OUT)
-			splitlist <- strsplit(OUT[nzchar(OUT)], split = "\\|")
-			OUT <- sapply(splitlist, FUN = function(X) X[[1]])
-			names(OUT) <- sapply(splitlist, FUN = function(X) X[[2]])
+			OUT <- gsub(" +", " ", OUT)
+			if (nzchar(OUT)) {
+				OUT <- strsplit(OUT, split = " ")[[1]]
+				OUT <- gsub(":.*$", "", OUT)
+				splitlist <- strsplit(OUT[nzchar(OUT)], split = "\\|")
+				OUT <- sapply(splitlist, FUN = function(X) X[[1]])
+				names(OUT) <- sapply(splitlist, FUN = function(X) X[[2]])
+			}
 		} else {
 			OUT <- .jcall(analyzer, "S", "segWord", strwords)
 			Encoding(OUT) <- "UTF-8"
-			OUT <- strsplit(OUT[nzchar(OUT)], split = " ")[[1]]
+			OUT <- gsub(" +", " ", OUT)
+			if (nzchar(OUT)) OUT <- strsplit(OUT, split = " ")[[1]]
 		}
 		
-		if (nosymbol) {
-			OUT <- OUT[grep("[\u4e00-\u9fa5]|[A-z]|[0-9]", OUT)]
+		if (nosymbol && any(nzchar(OUT))) {
+			OUT <- OUT[grep("[\u4e00-\u9fa5]|[a-z]|[0-9]", OUT)]
 			OUT <- gsub("\\[|\\]", "", OUT)
+			OUT <- OUT[nzchar(OUT)]
 		}
-		OUT <- OUT[nzchar(OUT)]
+		if (length(OUT) == 0) OUT <- ""
 		return(OUT)
 	} else {
 		return(lapply(strwords, segmentCN, analyzer, nature, nosymbol))
