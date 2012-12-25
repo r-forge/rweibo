@@ -4,7 +4,7 @@
 \usage{
   segmentCN(strwords,
     analyzer = get("Analyzer", envir = .RwordsegEnv),
-    nature = FALSE, nosymbol = TRUE)
+    nature = FALSE, nosymbol = TRUE, recognition = TRUE)
 }
 \arguments{
   \item{strwords}{A Chinese sentence in UTF-8.}
@@ -15,6 +15,9 @@
   words.}
 
   \item{nosymbol}{Whether to keep symbols in the sentence.}
+
+  \item{recognition}{Whether to recognise the person names
+  automatically.}
 }
 \value{
   a vector of words (list if input is vecter) which have

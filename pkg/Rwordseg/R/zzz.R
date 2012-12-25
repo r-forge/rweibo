@@ -19,7 +19,8 @@
 	.jcall(Analyzer, "V", "initialAnalyzer")
 	assign("Analyzer", Analyzer, envir = .RwordsegEnv)
 	options(dic.dir = system.file("dict", package = "Rwordseg"))
-	loadUserDict()
+	tryload <- try(loadUserDict(), silent = TRUE)
+	if (inherits(tryload, "try-error")) warning(paste("Fail to load the user defined dictionary:\n", as.character(tryload)))
 }
 
 .onUnload <- function(libpath) {

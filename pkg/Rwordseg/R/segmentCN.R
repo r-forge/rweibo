@@ -6,17 +6,20 @@
 ##' @param analyzer A JAVA object of analyzer.
 ##' @param nature Whether to recognise the nature of the words.
 ##' @param nosymbol Whether to keep symbols in the sentence.
+##' @param recognition Whether to recognise the person names automatically.
 ##' @return a vector of words (list if input is vecter) which have been segmented.
 ##' @author Jian Li <\email{rweibo@@sina.com}>
 ##' @examples \dontrun{
 ##' segmentCN("hello world!")
 ##' }
 
-segmentCN <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv), nature = FALSE, nosymbol = TRUE) {
+segmentCN <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv), 
+		nature = FALSE, nosymbol = TRUE, recognition = TRUE) {
 	if (!is.character(strwords)) stop("Please input character!")
 	if (length(strwords) == 1) {
 		if (nature) {
-			OUT <- .jcall(analyzer, "S", "segWordNature", strwords)
+			strfunc <- ifelse(recognition, "segWordNature", "segWordNatureNoRecog")
+			OUT <- .jcall(analyzer, "S", strfunc, strwords)
 			Encoding(OUT) <- "UTF-8"
 			OUT <- gsub(" +", " ", OUT)
 			if (nzchar(OUT)) {
@@ -27,7 +30,8 @@ segmentCN <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv)
 				names(OUT) <- sapply(splitlist, FUN = function(X) X[[2]])
 			}
 		} else {
-			OUT <- .jcall(analyzer, "S", "segWord", strwords)
+			strfunc <- ifelse(recognition, "segWord", "segWordNoRecog")
+			OUT <- .jcall(analyzer, "S", strfunc, strwords)
 			Encoding(OUT) <- "UTF-8"
 			OUT <- gsub(" +", " ", OUT)
 			if (nzchar(OUT)) OUT <- strsplit(OUT, split = " ")[[1]]
