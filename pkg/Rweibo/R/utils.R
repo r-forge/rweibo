@@ -47,8 +47,38 @@
 	return(OUT)
 }
 
+.setCallback <- function() {
+	config <- readLines(file.path(system.file(package = "Rweibo"), "config", "Rweibo.txt"))
+	port <- try(as.numeric(gsub("port:", "", config[grep("port", config)])), silent = TRUE)
+	if (inherits(port, "try-error") || is.na(port)) {
+		port <- 80
+		cat(paste("Format of", 
+						file.path(system.file(package = "Rweibo"), "config", "Rweibo.txt"),
+						"is wrong!\n"))
+	}
+	if (port == 80) {
+		struri <- "http://127.0.0.1/library/Rweibo/doc/callback.html"
+	} else {
+		struri <- paste("http://127.0.0.1:", port, "/library/Rweibo/doc/callback.html", sep = "")
+	}
+	options(redirect_uri = struri)
+	cat(paste("# The port of help server was set to", port, "\n"))
+	
+	.setHttpPort(port)
+		
+	if (!file.exists(file.path(system.file(package = "Rweibo"), "doc", "callback.html"))) {
+		file.copy(file.path(system.file(package = "Rweibo"), "config", "callback.html"), 
+				file.path(system.file(package = "Rweibo"), "doc"))
+	}
 
+}
 
-
+.setHttpPort <- function(port) {
+	port <- try(as.integer(port), silent = TRUE)
+	if (is.na(port)) stop("Not integer!")
+	options(help.ports = port)
+	try(startDynamicHelp(start = FALSE), silent = TRUE)
+	try(startDynamicHelp(), silent = TRUE)
+}
 
 

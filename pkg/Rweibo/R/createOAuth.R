@@ -54,6 +54,8 @@ createOAuth <- function(app_name, access_name, forcelogin = FALSE) {
 
 .authorization <- function(app_name, access_name, authURL = "https://api.weibo.com/oauth2/authorize", 
 		accessURL = "https://api.weibo.com/oauth2/access_token", forcelogin = FALSE) {
+	oldport <- tools:::httpdPort
+	if (is.null(getOption("redirect_uri"))) .setCallback()
 	apppath <- system.file(package = "Rweibo", "oauth")
 	if (app_name %in% list.files(apppath)) {
 		applist <- fromJSON(file=file.path(apppath, app_name))
@@ -68,6 +70,7 @@ createOAuth <- function(app_name, access_name, forcelogin = FALSE) {
 		msg <- paste("Please input the codes here\n",
 				"CODE: ", sep='')
 		verifierCode <- readline(prompt=msg)
+		if (oldport != 0) .setHttpPort(oldport)
 		
 		curl <- getCurlHandle()
 		reader <- dynCurlReader(curl, baseURL = accessURL, verbose = FALSE)
@@ -89,6 +92,7 @@ createOAuth <- function(app_name, access_name, forcelogin = FALSE) {
 			.addAccess(app_name, access_name, oauthToken, oauthUserID, oauthTime, oauthExpires)
 		}
 	} else {
+		if (oldport != 0) .setHttpPort(oldport)
 		stop(paste(app_name, "doesn't exist, please use '.registerApp' to create"))
 	}
 	return (TRUE)
