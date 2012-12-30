@@ -14,7 +14,7 @@
 	if (exists("Analyzer", envir = .RwordsegEnv)) {
 		rm("Analyzer", envir = .RwordsegEnv)
 	}
-	Analyzer <- .jnew("org/jianl/wordseg/r/Analyzer")
+	Analyzer <- .jnew("org/jianl/rinterface/Analyzer")
 	.jcall(Analyzer, "V", "setDicPath", dictpath)
 	.jcall(Analyzer, "V", "initialAnalyzer")
 	assign("Analyzer", Analyzer, envir = .RwordsegEnv)

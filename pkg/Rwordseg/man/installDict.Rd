@@ -2,12 +2,15 @@
 \alias{installDict}
 \title{Install new dictionary.}
 \usage{
-  installDict(dictpath, transGBK = FALSE)
+  installDict(dictpath, dictname = "userDefine",
+    dicttype = c("text", "scel"))
 }
 \arguments{
   \item{dictpath}{Path of dictionary.}
 
-  \item{transGBK}{Whether to transform GBK t0 UTF-8.}
+  \item{dictname}{English name of the dictionary.}
+
+  \item{dicttype}{Type of the dictionary.}
 }
 \value{
   No results.
