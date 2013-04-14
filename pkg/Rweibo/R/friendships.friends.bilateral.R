@@ -45,7 +45,7 @@
 ##' @keywords Friendships
 ##' @examples \dontrun{
 ##' 
-##' friendships.friends.bilateral(roauth, uid = 12345)
+##' friendships.friends.bilateral(roauth, uid = "1318558807")
 ##' }
 
 friendships.friends.bilateral <- function(roauth, uid, count = 20, page = 1, sort = 0, ...) {
@@ -55,6 +55,8 @@ friendships.friends.bilateral <- function(roauth, uid, count = 20, page = 1, sor
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .get(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
 	return(returnthis)
 }

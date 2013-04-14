@@ -27,7 +27,7 @@
 ##' @keywords Comments
 ##' @examples \dontrun{
 ##' 
-##' comments.show(roauth, id = "12345", count = 5)
+##' comments.show(roauth, id = "3543748358960699", count = 5)
 ##' }
 
 comments.show <- function(roauth, id, count = 20, page = 1, filter_by_author = 0, ...) {
@@ -37,6 +37,8 @@ comments.show <- function(roauth, id, count = 20, page = 1, filter_by_author = 0
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .get(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
 	return(returnthis$comments)
 }

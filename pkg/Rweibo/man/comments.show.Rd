@@ -37,7 +37,7 @@
 \examples{
 \dontrun{
 
-comments.show(roauth, id = "12345", count = 5)
+comments.show(roauth, id = "3543748358960699", count = 5)
 }
 }
 \author{

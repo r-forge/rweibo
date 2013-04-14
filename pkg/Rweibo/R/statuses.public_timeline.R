@@ -46,6 +46,8 @@ statuses.public_timeline <- function(roauth, count = 20, page = 1, base_app = 0,
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .get(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
 	return(returnthis$statuses)
 }

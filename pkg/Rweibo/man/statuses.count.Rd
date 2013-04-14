@@ -24,7 +24,7 @@
 \examples{
 \dontrun{
 
-statuses.count(roauth, ids = 12345)
+statuses.count(roauth, ids = "3543748358960699")
 }
 }
 \author{

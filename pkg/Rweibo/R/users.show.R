@@ -44,7 +44,7 @@
 ##' @keywords Users
 ##' @examples \dontrun{
 ##' 
-##' users.show(roauth, uid = 12345)
+##' users.show(roauth, uid = "1318558807")
 ##' }
 
 users.show <- function(roauth, uid, screen_name, ...) {
@@ -54,6 +54,8 @@ users.show <- function(roauth, uid, screen_name, ...) {
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .get(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
 	return(returnthis)
 }

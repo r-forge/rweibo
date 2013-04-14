@@ -19,7 +19,7 @@
 ##' @keywords Users
 ##' @examples \dontrun{
 ##' 
-##' users.counts(roauth, uids = 12345)
+##' users.counts(roauth, uids = "1318558807")
 ##' }
 
 users.counts <- function(roauth, uids, ...) {
@@ -29,6 +29,8 @@ users.counts <- function(roauth, uids, ...) {
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .get(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
 	return(returnthis)
 }

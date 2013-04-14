@@ -58,7 +58,7 @@
 \examples{
 \dontrun{
 
-statuses.user_timeline(roauth, screen_name = "Rweibo", count = 5)
+statuses.user_timeline(roauth, screen_name = "lijian001", count = 5)
 }
 }
 \author{

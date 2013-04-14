@@ -18,7 +18,7 @@
 ##' @keywords Weibo
 ##' @examples \dontrun{
 ##' 
-##' statuses.count(roauth, ids = 12345)
+##' statuses.count(roauth, ids = "3543748358960699")
 ##' }
 
 statuses.count <- function(roauth, ids, ...) {
@@ -28,6 +28,8 @@ statuses.count <- function(roauth, ids, ...) {
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .get(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
 	return(returnthis )
 }

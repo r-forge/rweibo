@@ -23,7 +23,9 @@
 ##' @keywords Comments
 ##' @examples \dontrun{
 ##' 
-##' comments.destroy(roauth, cid = 54321)
+##' com2 <- comments.create(roauth, id = "3543748358960699", 
+##'   comment = "huhu", comment_ori = 0)
+##' comments.destroy(roauth, cid = as.character(com2$id))
 ##' }
 
 comments.destroy <- function(roauth, cid, ...) {
@@ -33,6 +35,8 @@ comments.destroy <- function(roauth, cid, ...) {
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .post(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .post(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
 	return(returnthis)
 }

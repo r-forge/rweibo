@@ -48,7 +48,7 @@
 \examples{
 \dontrun{
 
-statuses.update(roauth, status = "hello world")
+statuses.update(roauth, status = "hello world!")
 }
 }
 \author{

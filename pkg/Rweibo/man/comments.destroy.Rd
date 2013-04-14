@@ -26,7 +26,9 @@
 \examples{
 \dontrun{
 
-comments.destroy(roauth, cid = 54321)
+com2 <- comments.create(roauth, id = "3543748358960699",
+  comment = "huhu", comment_ori = 0)
+comments.destroy(roauth, cid = as.character(com2$id))
 }
 }
 \author{

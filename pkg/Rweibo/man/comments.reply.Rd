@@ -40,7 +40,7 @@
 \examples{
 \dontrun{
 
-comments.reply(roauth, cid = 54321, id = 12345, comment = "hello world")
+comments.reply(roauth, cid = "3543759101243075", id = "3543748358960699", comment = "haha")
 }
 }
 \author{

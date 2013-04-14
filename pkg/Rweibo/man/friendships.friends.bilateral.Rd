@@ -60,7 +60,7 @@
 \examples{
 \dontrun{
 
-friendships.friends.bilateral(roauth, uid = 12345)
+friendships.friends.bilateral(roauth, uid = "1318558807")
 }
 }
 \author{

@@ -31,8 +31,14 @@
 ##' web.search.content("Rweibo", since = "2012-10-01")$Weibo
 ##' }
 
-web.search.content <- function(sword, page = 1, combinewith = NULL, since = NULL, sinceID = NULL, sleepmean = 0, sleepsd = 0, ...) {
-	page <- min(page, 50)
+web.search.content <- function(sword, page = 1, combinewith = NULL, 
+		since = NULL, sinceID = NULL, sleepmean = 3, sleepsd = 1, 
+		roauth = NULL, ...) 
+{
+	if (length(page) == 1) page = 1:page
+	page <- page[page > 0 & page <= 50]
+	page <- sort(page)
+	if (length(page) > 25) page <- page[1:25]
 	Search <- TRUE
 	ipage <- 1
 	if (!is.null(combinewith)) {
@@ -66,12 +72,19 @@ web.search.content <- function(sword, page = 1, combinewith = NULL, since = NULL
 		if (inherits(since, "POSIXlt")) maxdate <- since
 	}
 	
-	while (Search && ipage <= page) {
+	while (Search && ipage <= length(page)) {
 		Sys.sleep(abs(rnorm(1, sleepmean, sleepsd)))
-		tmp.search <- .search.content(sword, ipage)
+		if (is.null(roauth)) {
+			tmp.search <- try(.search.content.anon(sword, page[ipage]), silent = TRUE)
+		} else {
+			tmp.search <- try(.search.content.curl(sword, page[ipage], roauth$webCurl), silent = TRUE)
+		}
 		ipage <- ipage + 1
 		if (is.null(tmp.search)) {
+			cat(paste(ipage - 2, " pages was stored!\n", sep = ""))
 			Search <- FALSE
+		} else if (inherits(tmp.search, "try-error")){
+			warning(paste("Error in page ", ipage - 1, sep = ""))
 		} else {
 			if (min(as.numeric(tmp.search$MID)) <= maxid || min(tmp.search$Time_Weibo) < maxdate) {
 				Search <- FALSE
@@ -85,20 +98,22 @@ web.search.content <- function(sword, page = 1, combinewith = NULL, since = NULL
 }
 
 
-.search.content <- function(sword, page = 1, ...) {
+.search.content.anon <- function(sword, page = 1, ...) {
 	requestURL <- "http://s.weibo.com/weibo/"
 	sword <- curlEscape(.cntoUTF8(sword))
-	# strurl <- paste(requestURL, sword, "&page=", page, sep = "") # default sorting
-	# strurl <- paste(requestURL, sword, "&xsort=hot&page=", page, sep = "") # hot sorting 
 	strurl <- paste(requestURL, sword, "&xsort=time&page=", page, sep = "") # time sorting 
-	
 	pagetree <- htmlParse(strurl)
+	
 	pagenode <- getNodeSet(pagetree, "//script")
 	
 	pagescript <- sapply(pagenode, xmlValue)
 	weiboline <- pagescript[grep("\"pid\":\"pl_weibo_feedlist", pagescript)]
 	weibojson <- gsub("\\)$", "", gsub("^.*STK.pageletM.view\\(", "", weiboline))
-	weibolist <- fromJSON(weibojson)
+	if (length(weibojson) == 0) {
+		warning("Can not crawl any page now. May be forbidden by Sina temporarily.", call. = FALSE)
+		return(NULL)
+	}
+	weibolist <- .fromJSON(weibojson)
 	
 	weibopage <- htmlParse(weibolist[["html"]], asText=TRUE, encoding = "UTF-8")
 	
@@ -108,7 +123,7 @@ web.search.content <- function(sword, page = 1, combinewith = NULL, since = NULL
 	
 	if (length(weiboitem.nores) == 0) {
 		res.mid <- sapply(weiboitem.attr, function(X) xmlGetAttr(X, "mid"))
-		res.con <- sapply(weiboitem.con, FUN = function(X) xmlValue(getNodeSet(X, "p[@node-type='feed_list_content']")[[1]]))
+		res.con <- sapply(weiboitem.con, FUN = function(X) xmlValue(getNodeSet(X, "p[@node-type='feed_list_content']")[[1]]))	
 		res.name <- sapply(weiboitem.con, FUN = function(X) xmlGetAttr(getNodeSet(X, "p[@node-type='feed_list_content']/a")[[1]], "nick-name"))
 		res.date <- sapply(weiboitem.con, FUN = function(X) xmlGetAttr(getNodeSet(X, "p/a[@node-type='feed_list_item_date']")[[1]], "title"))
 		res.stat <- lapply(weiboitem.con, FUN = function(X) sapply(getNodeSet(X, "p/span/a"), xmlValue))
@@ -121,9 +136,9 @@ web.search.content <- function(sword, page = 1, combinewith = NULL, since = NULL
 					}
 				}
 		)
-		Encoding(res.name) <- "UTF-8"			
-		res.con <- gsub("\n", "", res.con)
-		res.forward <- gsub("\n", "", res.forward)
+		Encoding(res.name) <- "UTF-8"
+		res.con <- .strtrim(res.con)
+		res.forward <- .strtrim(res.forward)
 		res.date <- strptime(res.date, format = "%Y-%m-%d %H:%M")
 		res.stat.f <- as.numeric(gsub("[^0-9]", "", sapply(res.stat, FUN = function(X) X[grep("\u8F6C\u53D1", X)])))
 		res.stat.r <- as.numeric(gsub("[^0-9]", "", sapply(res.stat, FUN = function(X) X[grep("\u8BC4\u8BBA", X)])))
@@ -141,3 +156,60 @@ web.search.content <- function(sword, page = 1, combinewith = NULL, since = NULL
 	return(OUT)
 }
 
+
+.search.content.curl <- function(sword, page = 1, curl = NULL, ...) {
+	requestURL <- "http://s.weibo.com/weibo/"
+	sword <- curlEscape(.cntoUTF8(sword))
+	strurl <- paste(requestURL, sword, "&xsort=time&page=", page, sep = "") # time sorting 
+	
+	resXML <- getURL(strurl, curl = curl, .encoding = 'UTF-8')
+	resHTMLs <- .strextract(resXML, "<script>.+?</script>")[[1]]
+	resHTML <- resHTMLs[grep("\"pid\":\"pl_weibo_feedlist\"", resHTMLs)][1]
+	if (is.na(resHTML)) {
+		warning("Can not crawl any page now. May be forbidden by Sina temporarily.", call. = FALSE)
+		return(NULL)
+	}
+
+	weibojson <- gsub("\\)</script>$", "", gsub("^.*STK.pageletM.view\\(", "", resHTML))
+	weibolist <- .fromJSON(weibojson)
+	
+	weibopage <- htmlParse(weibolist[["html"]], asText=TRUE, encoding = "UTF-8")
+	
+	weiboitem.attr <- getNodeSet(weibopage, "//dl[@class='feed_list']")
+	weiboitem.con <- getNodeSet(weibopage, "//dd[@class='content']")
+	weiboitem.nores <- getNodeSet(weibopage, "//div[@class='pl_noresult']")
+	
+	if (length(weiboitem.nores) == 0) {
+		res.mid <- sapply(weiboitem.attr, function(X) xmlGetAttr(X, "mid"))
+		res.con <- sapply(weiboitem.con, FUN = function(X) xmlValue(getNodeSet(X, "p[@node-type='feed_list_content']")[[1]]))	
+		res.name <- sapply(weiboitem.con, FUN = function(X) xmlGetAttr(getNodeSet(X, "p[@node-type='feed_list_content']/a")[[1]], "nick-name"))
+		res.date <- sapply(weiboitem.con, FUN = function(X) xmlGetAttr(getNodeSet(X, "p/a[@node-type='feed_list_item_date']")[[1]], "title"))
+		res.stat <- lapply(weiboitem.con, FUN = function(X) sapply(getNodeSet(X, "p/span/a"), xmlValue))
+		res.forward <- sapply(weiboitem.con, FUN = function(X) {
+					tmp.node <- getNodeSet(X, "dl/dt[@node-type='feed_list_forwardContent']")
+					if (length(tmp.node) == 0) {
+						NA
+					} else {
+						xmlValue(tmp.node[[1]])
+					}
+				}
+		)
+		Encoding(res.name) <- "UTF-8"			
+		res.con <- .strtrim(res.con)
+		res.forward <- .strtrim(res.forward)
+		res.date <- strptime(res.date, format = "%Y-%m-%d %H:%M")
+		res.stat.f <- as.numeric(gsub("[^0-9]", "", sapply(res.stat, FUN = function(X) X[grep("\u8F6C\u53D1", X)])))
+		res.stat.r <- as.numeric(gsub("[^0-9]", "", sapply(res.stat, FUN = function(X) X[grep("\u8BC4\u8BBA", X)])))
+		res.stat.f[is.na(res.stat.f)] <- 0
+		res.stat.r[is.na(res.stat.r)] <- 0
+		
+		OUT <- data.frame(MID = res.mid, Author = res.name, Weibo = res.con, Forward = res.forward, Time_Weibo = res.date,
+				Time_Search = Sys.time(), Count_Forward = res.stat.f, Count_Reply = res.stat.r, stringsAsFactors = FALSE)
+		OUT$Weibo <- sapply(seq_along(OUT$Weibo), FUN = function(X) 
+					gsub(paste("^ *", OUT$Author[X], "\uFF1A *", sep = ""), "", OUT$Weibo[X]))
+	} else {
+		OUT <- NULL
+	}
+	
+	return(OUT)
+}

@@ -39,7 +39,8 @@
 \examples{
 \dontrun{
 
-statuses.destroy(roauth, id = 12345)
+rep1 <- statuses.repost(roauth, id = "3543748358960699", status = "hello")
+statuses.destroy(roauth, id = rep1$idstr)
 }
 }
 \author{

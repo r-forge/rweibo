@@ -58,7 +58,7 @@
 \examples{
 \dontrun{
 
-friendships.friends.in_common(roauth, uid = 12345)
+friendships.friends.in_common(roauth, uid = "1318558807")
 }
 }
 \author{

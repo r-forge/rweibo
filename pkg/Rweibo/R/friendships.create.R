@@ -54,7 +54,11 @@ friendships.create <- function(roauth, uid, screen_name, ...) {
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 	
-	returnthis <- .post(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .post(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
+	roauth$oauthLimits$RemainingHits[4] = roauth$oauthLimits$RemainingHits[4] - 1
+	roauth$oauthLimits$RemainingHits[5] = roauth$oauthLimits$RemainingHits[5] - 1
 	return(returnthis)
 }
 

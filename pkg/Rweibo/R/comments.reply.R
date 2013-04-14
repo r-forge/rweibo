@@ -27,7 +27,7 @@
 ##' @keywords Comments
 ##' @examples \dontrun{
 ##' 
-##' comments.reply(roauth, cid = 54321, id = 12345, comment = "hello world")
+##' comments.reply(roauth, cid = "3543759101243075", id = "3543748358960699", comment = "haha")
 ##' }
 
 comments.reply <- function(roauth, cid, id, comment, without_mention = 0, comment_ori = 0, ...) {
@@ -37,6 +37,9 @@ comments.reply <- function(roauth, cid, id, comment, without_mention = 0, commen
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .post(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .post(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
+	roauth$oauthLimits$RemainingHits[2] = roauth$oauthLimits$RemainingHits[2] - 1
 	return(returnthis)
 }

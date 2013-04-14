@@ -37,7 +37,7 @@
 ##' @keywords Weibo
 ##' @examples \dontrun{
 ##' 
-##' statuses.update(roauth, status = "hello world")
+##' statuses.update(roauth, status = "hello world!")
 ##' }
 
 statuses.update <- function(roauth, status, lat = "0.0", long = "0.0", ...) {
@@ -47,6 +47,9 @@ statuses.update <- function(roauth, status, lat = "0.0", long = "0.0", ...) {
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .post(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .post(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
+	roauth$oauthLimits$RemainingHits[1] = roauth$oauthLimits$RemainingHits[1] - 1
 	return(returnthis)
 }

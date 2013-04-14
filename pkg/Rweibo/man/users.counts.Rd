@@ -27,7 +27,7 @@
 \examples{
 \dontrun{
 
-users.counts(roauth, uids = 12345)
+users.counts(roauth, uids = "1318558807")
 }
 }
 \author{

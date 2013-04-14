@@ -22,6 +22,6 @@ account.rate_limit_status <- function(roauth) {
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .get(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
 	return(returnthis)
 }

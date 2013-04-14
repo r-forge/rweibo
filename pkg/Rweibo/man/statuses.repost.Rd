@@ -46,7 +46,7 @@
 \examples{
 \dontrun{
 
-statuses.repost(roauth, id = 12345, status = "hello world")
+statuses.repost(roauth, id = "3543748358960699", status = "hello world")
 }
 }
 \author{

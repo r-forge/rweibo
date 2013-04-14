@@ -34,7 +34,7 @@
 \examples{
 \dontrun{
 
-friendships.friends_chain.followers(roauth, id = "12345", count = 5)
+friendships.friends_chain.followers(roauth, id = "1318558807", count = 5)
 }
 }
 \author{

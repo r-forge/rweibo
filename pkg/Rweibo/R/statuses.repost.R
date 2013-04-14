@@ -37,7 +37,7 @@
 ##' @keywords Weibo
 ##' @examples \dontrun{
 ##' 
-##' statuses.repost(roauth, id = 12345, status = "hello world")
+##' statuses.repost(roauth, id = "3543748358960699", status = "hello world")
 ##' }
 
 statuses.repost <- function(roauth, id, status, is_comment = 0, ...) {
@@ -47,6 +47,9 @@ statuses.repost <- function(roauth, id, status, is_comment = 0, ...) {
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .post(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .post(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
+	roauth$oauthLimits$RemainingHits[1] = roauth$oauthLimits$RemainingHits[1] - 1
 	return(returnthis)
 }

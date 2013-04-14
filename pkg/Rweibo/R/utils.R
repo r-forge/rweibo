@@ -1,6 +1,6 @@
 
 
-.get <- function(strurl, oauthKey, params = character()) 
+.get <- function(strurl, oauthKey, params = character(), curl = getCurlHandle()) 
 {
 	params <- lapply(params, FUN = function(X) if (inherits(X, "name") || inherits(X, "call")) eval(X) else X)
 	params["access_token"] <- oauthKey
@@ -12,13 +12,13 @@
 	fields <- paste(names(params), sapply(params, curlPercentEncode), sep = "=", collapse = "&") 
 	strurl <- paste(strurl, fields, sep ="?")
 
-	OUT <- getURL(strurl, ssl.verifypeer = FALSE)
-	OUT <- fromJSON(OUT)
+	OUT <- getURL(strurl, ssl.verifypeer = FALSE, curl = curl, .encoding = "UTF-8")
+	OUT <- .fromJSON(OUT)
 	
 	return(OUT)
 }
 
-.post <- function(strurl, oauthKey, params = character(), curl = getCurlHandle()) 
+.post <- function(strurl, oauthKey, params = character(), curl = getCurlHandle(), transjson = TRUE) 
 {
 	params <- lapply(params, FUN = function(X) if (inherits(X, "name") || inherits(X, "call")) eval(X) else X)
 	
@@ -36,7 +36,8 @@
 	fields <- paste(names(params), unlist(params), sep = "=", collapse = "&")  
 	
 	curlPerform(curl = curl, URL = strurl, postfields = fields, writefunction = reader$update, ssl.verifypeer = FALSE)
-	OUT <- fromJSON(reader$value())
+	OUT <- reader$value()
+	if (transjson) OUT <- .fromJSON(OUT)
 	
 	return(OUT)
 }
@@ -79,6 +80,58 @@
 	options(help.ports = port)
 	try(startDynamicHelp(start = FALSE), silent = TRUE)
 	try(startDynamicHelp(), silent = TRUE)
+}
+
+
+
+.strextract <- function(string, pattern, invert = FALSE,
+		ignore.case = FALSE, perl = FALSE, useBytes = FALSE) 
+{
+	expr <- gregexpr(pattern = pattern, text = string, ignore.case = ignore.case, 
+			perl = perl, fixed = FALSE, useBytes = useBytes)
+	OUT <- regmatches(x = string, m = expr, invert = invert)
+	return(OUT)
+}
+
+.strtrim <- function(string, side = c("both", "left", "right")) {
+	side <- match.arg(side)
+	pattern <- switch(side, left = "^\\s+", right = "\\s+$", both = "^\\s+|\\s+$")
+	OUT <- gsub(pattern, "", string)
+	return(OUT)
+}
+
+.hourtime <- function(hours) {
+	outTimeN <- (as.numeric(Sys.time()) %/% 3600 + hours) * 3600
+	outTime <- as.POSIXct(outTimeN, origin="1970-01-01 08:00:00")
+	return(format(outTime, "%Y-%m-%d %H:%M:%S"))
+}
+
+.inttodate <- function(intD, type = c("String", "Time"), origin = "1970-01-01 08:00:00") {
+	type = match.arg(type)
+	intD <- as.numeric(intD)
+	intD[nchar(intD) == 13] <- intD[nchar(intD) == 13] / 1000
+	T <- as.POSIXct(intD, origin=origin)
+	if (type == "Time") return(T)
+	if (type == "String") return(format(T, "%Y-%m-%d %H:%M:%S"))
+}
+
+.fromJSON <- function(json, api = c("rjson", "RJSONIO"), ...) {
+	api <- match.arg(api)
+	iscontent <- inherits(json, "AsIs") || (!file.exists(json) && length(grep("^[[:space:]]*[[{]", json)))
+	
+	if (api == "rjson") {
+		if (iscontent) {
+			OUT <- rjson:::fromJSON(json_str = json)
+		} else {
+			OUT <- rjson:::fromJSON(file = json)
+		}
+	}
+	
+	if (api == "RJSONIO") {
+		OUT <- RJSONIO:::fromJSON(json_str = content, ...)
+	}
+	
+	return(OUT)
 }
 
 

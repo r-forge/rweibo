@@ -28,7 +28,9 @@
 \examples{
 \dontrun{
 
-comments.destroy_batch(roauth, cids = 54321)
+com1 <- comments.create(roauth, id = "3543748358960699",
+  comment = "hehe", comment_ori = 0)
+comments.destroy_batch(roauth, cids = as.character(com1$id))
 }
 }
 \author{

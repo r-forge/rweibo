@@ -63,7 +63,7 @@
 \examples{
 \dontrun{
 
-friendships.followers(roauth, uid = 12345)
+friendships.followers(roauth, uid = "1318558807")
 }
 }
 \author{

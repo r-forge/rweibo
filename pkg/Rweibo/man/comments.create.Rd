@@ -34,7 +34,7 @@
 \examples{
 \dontrun{
 
-comments.create(roauth, id = 12345, comment = "hello world", comment_ori = 0)
+comments.create(roauth, id = "3543748358960699", comment = "hello", comment_ori = 0)
 }
 }
 \author{

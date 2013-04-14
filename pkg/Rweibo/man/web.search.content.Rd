@@ -3,8 +3,8 @@
 \title{Search content by word.}
 \usage{
   web.search.content(sword, page = 1, combinewith = NULL,
-    since = NULL, sinceID = NULL, sleepmean = 0,
-    sleepsd = 0, ...)
+    since = NULL, sinceID = NULL, sleepmean = 3,
+    sleepsd = 1, roauth = NULL, ...)
 }
 \arguments{
   \item{sword}{The word to be searched.}

@@ -37,7 +37,7 @@
 \examples{
 \dontrun{
 
-statuses.show(roauth, id = 12345)
+statuses.show(roauth, id = "3543748358960699")
 }
 }
 \author{

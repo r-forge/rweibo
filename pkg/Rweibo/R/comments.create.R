@@ -25,7 +25,7 @@
 ##' @keywords Comments
 ##' @examples \dontrun{
 ##' 
-##' comments.create(roauth, id = 12345, comment = "hello world", comment_ori = 0)
+##' comments.create(roauth, id = "3543748358960699", comment = "hello", comment_ori = 0)
 ##' }
 
 comments.create <- function(roauth, id, comment, comment_ori = 0, ...) {
@@ -35,6 +35,9 @@ comments.create <- function(roauth, id, comment, comment_ori = 0, ...) {
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .post(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .post(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
+	roauth$oauthLimits$RemainingHits[2] = roauth$oauthLimits$RemainingHits[2] - 1
 	return(returnthis)
 }

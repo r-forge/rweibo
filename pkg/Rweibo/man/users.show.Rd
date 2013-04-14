@@ -54,7 +54,7 @@
 \examples{
 \dontrun{
 
-users.show(roauth, uid = 12345)
+users.show(roauth, uid = "1318558807")
 }
 }
 \author{

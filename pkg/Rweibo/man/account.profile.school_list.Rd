@@ -42,7 +42,7 @@
 \examples{
 \dontrun{
 
-account.profile.school_list(roauth)
+account.profile.school_list(roauth, keyword = "China")
 }
 }
 \author{

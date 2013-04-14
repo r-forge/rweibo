@@ -2,17 +2,27 @@
 \alias{createOAuth}
 \title{create an OAuth object}
 \usage{
-  createOAuth(app_name, access_name, forcelogin = FALSE)
+  createOAuth(app_name, access_name, authorize = TRUE,
+    login = FALSE, username = "", password = "")
 }
 \arguments{
-  \item{app_name}{name of the application}
+  \item{app_name}{name of the application.}
 
-  \item{access_name}{a string of your access name}
+  \item{access_name}{a string of your access name.}
 
-  \item{forcelogin}{whether re-login the weibo}
+  \item{authorize}{whether to authorize the oauth to use
+  sina API.}
+
+  \item{login}{whether to login to impersonate the login.}
+
+  \item{username}{user name of the account to impersonate
+  the login.}
+
+  \item{password}{password of the account to impersonate
+  the login.}
 }
 \value{
-  An S4 object of \code{\link{OAuth2}}.
+  An reference object of \code{\link{weibo2.0}}.
 }
 \description{
   Create an authorized OAuth object

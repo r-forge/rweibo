@@ -1,15 +1,15 @@
-setClass("OAuth2", representation(appKey = "character", appSecret = "character", 
-				oauthToken = "character", oauthUser = "character", 
-				oauthTime = "character", oauthLife = "character"))
 
 
 ##' Create an authorized OAuth object
 ##' 
 ##' @title create an OAuth object
-##' @param app_name name of the application
-##' @param access_name a string of your access name
-##' @param forcelogin whether re-login the weibo
-##' @return An S4 object of \code{\link{OAuth2}}.
+##' @param app_name name of the application.
+##' @param access_name a string of your access name.
+##' @param authorize whether to authorize the oauth to use sina API.
+##' @param login whether to login to impersonate the login.
+##' @param username user name of the account to impersonate the login.
+##' @param password password of the account to impersonate the login.
+##' @return An reference object of \code{\link{weibo2.0}}.
 ##' @note There is only one OAuth object needed.
 ##' @author Jian Li <\email{rweibo@@sina.com}>
 ##' @seealso \code{\link{registerApp}}
@@ -19,81 +19,53 @@ setClass("OAuth2", representation(appKey = "character", appSecret = "character",
 ##' 
 ##' roauth <- createOAuth("sinademo", "user1")
 ##' }
-createOAuth <- function(app_name, access_name, forcelogin = FALSE) {
-	apppath <- system.file(package = "Rweibo", "oauth")
-	if (app_name %in% list.files(apppath)) {
-		applist <- fromJSON(file=file.path(apppath, app_name))
-		
-		isExpires <- TRUE
-		try(
-			isExpires <- as.numeric(difftime(Sys.time(), as.POSIXlt(applist$app_token[[access_name]]$token_time, 
-								format = "%Y-%m-%d %H:%M:%S"), units = "secs")) > 
-								as.numeric(applist$app_token[[access_name]]$expires_in), silent = TRUE
-			)
-		
-		if (! access_name %in% names(applist$app_token) || forcelogin || isExpires) {
-			.authorization(app_name, access_name, forcelogin = forcelogin)
+createOAuth <- function(app_name, access_name, authorize = TRUE, 
+		login = FALSE, username = "", password = "") {
+	oauthobj <- new("weibo2.0", appName = app_name, oauthName = access_name)
+	if (authorize) {
+		if (oauthobj$expiresIn() < 0) {
+			oauthobj$authorize(forcelogin = FALSE)
+			oauthobj$save()
 		}
-		applist <- fromJSON(file=file.path(apppath, app_name))
-		oauthobj <- new("OAuth2", 
-					appKey = applist$app_key, 
-					appSecret = applist$app_secret, 
-					oauthToken = applist$app_token[[access_name]]$token_key, 
-					oauthUser = applist$app_token[[access_name]]$token_user,
-					oauthTime = applist$app_token[[access_name]]$token_time,
-					oauthLife = applist$app_token[[access_name]]$expires_in
-			)
-	} else {
-		stop(paste(app_name, "doesn't exist, please use 'registerApp' to create"))
 	}
+	if(login) {
+		oauthobj$login(username, password) 
+	}
+	
+	limitDf <- try(oauthobj$getLimits(TRUE), silent = TRUE)
+	if (is.data.frame(limitDf)) {
+		oauthobj$oauthMsg <- "oauth was authorized! (expires in HOURS hours)"
+		oauthobj$oauthLimits <- limitDf
+		oauthobj$oauthResetTime <- .hourtime(1)
+	} else {
+		warning("oauth test failed, please check the connection or your application.", call. = FALSE)
+		oauthobj$oauthLife <- "-1"
+	}
+	
+	testweburl <- "http://weibo.com"
+	testwebcon <- getURL(testweburl, curl = oauthobj$webCurl, .encoding = "UTF-8")
+	#testwebcon <- iconv(testwebcon, "GBK", "UTF-8")
+	loginRetcode <- sapply(strsplit(.strextract(testwebcon, "retcode=[0-9]+")[[1]], split = "="), 
+			FUN = function(X) as.numeric(X[2]))
+	if (length(loginRetcode) == 0 || identical(loginRetcode[1], 0)) {
+		configlist <- strsplit(.strextract(testwebcon, "\\$CONFIG\\[[^;]*;")[[1]], split = "=")
+		configname <- .strtrim(gsub("[\\$CONFIG\\[']|['\\]]", "", sapply(configlist, FUN = function(X) X[1])))
+		configvalue <- .strtrim(gsub("[.*']|['.*]|[;]", "", sapply(configlist, FUN = function(X) X[2])))
+		if (configvalue[which(configname == "islogin")] == "1") {
+			oauthobj$webName = configvalue[which(configname == "nick")]
+			oauthobj$webUser = configvalue[which(configname == "uid")]
+			oauthobj$webMsg <- "cookies were saved! (COOKIE.cookies)"
+		} else {
+			warning("cookies test failed (not login), please check the connection or your setting.", call. = FALSE)
+		}
+	} else {
+		warning(paste("cookies test failed (", loginRetcode[1], 
+						"), please check the connection or your setting.", sep = ""), call. = FALSE)
+	}
+	
+	
 	return(oauthobj)
 }
 
 
 
-
-.authorization <- function(app_name, access_name, authURL = "https://api.weibo.com/oauth2/authorize", 
-		accessURL = "https://api.weibo.com/oauth2/access_token", forcelogin = FALSE) {
-	oldport <- tools:::httpdPort
-	if (is.null(getOption("redirect_uri"))) .setCallback()
-	apppath <- system.file(package = "Rweibo", "oauth")
-	if (app_name %in% list.files(apppath)) {
-		applist <- fromJSON(file=file.path(apppath, app_name))
-		app_key <- applist$app_key
-		app_secret <- applist$app_secret
-		
-		verifyURL <- paste(authURL, "?client_id=", app_key, "&response_type=code&redirect_uri=", 
-				getOption("redirect_uri"), sep= "")
-		if (forcelogin) verifyURL <- paste(verifyURL, "&forcelogin=true", sep = "")
-		
-		browseURL(verifyURL)
-		msg <- paste("Please input the codes here\n",
-				"CODE: ", sep='')
-		verifierCode <- readline(prompt=msg)
-		if (oldport != 0) .setHttpPort(oldport)
-		
-		curl <- getCurlHandle()
-		reader <- dynCurlReader(curl, baseURL = accessURL, verbose = FALSE)
-		fields <- paste("client_id=", app_key, "&client_secret=", app_secret, 
-				"&grant_type=authorization_code&redirect_uri=", getOption("redirect_uri"), 
-				"&code=", verifierCode, sep = "")
-		curlPerform(curl = curl, URL = accessURL, postfields = fields, writefunction = reader$update, ssl.verifypeer = FALSE)
-		tokenList <- fromJSON(reader$value())
-		
-		oauthToken <- tokenList$access_token
-		oauthUserID <- as.character(tokenList$uid)
-		oauthExpires <- as.character(tokenList$expires_in)
-		oauthTime <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
-		
-		
-		if (access_name %in% names(applist$app_token)) {
-			.modifyAccess(app_name, access_name, oauthToken, oauthUserID, oauthTime, oauthExpires)
-		} else {
-			.addAccess(app_name, access_name, oauthToken, oauthUserID, oauthTime, oauthExpires)
-		}
-	} else {
-		if (oldport != 0) .setHttpPort(oldport)
-		stop(paste(app_name, "doesn't exist, please use '.registerApp' to create"))
-	}
-	return (TRUE)
-}

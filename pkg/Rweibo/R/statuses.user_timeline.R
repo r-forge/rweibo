@@ -40,7 +40,7 @@
 ##' @keywords Weibo
 ##' @examples \dontrun{
 ##' 
-##' statuses.user_timeline(roauth, screen_name = "Rweibo", count = 5)
+##' statuses.user_timeline(roauth, screen_name = "lijian001", count = 5)
 ##' }
 
 statuses.user_timeline <- function(roauth, uid, screen_name, count = 20, 
@@ -51,6 +51,8 @@ statuses.user_timeline <- function(roauth, uid, screen_name, count = 20,
 	params[[1]] <- NULL
 	params[["roauth"]] <- NULL
 
-	returnthis <- .get(requestURL, roauth@oauthToken, params=params)
+	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
+	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
+	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
 	return(returnthis$statuses)
 }
