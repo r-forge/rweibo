@@ -10,7 +10,7 @@
   \item{roauth}{A OAuth object created by
   \code{\link{createOAuth}}.}
 
-  \item{uid}{Return the weibos of specified ID of a user.}
+  \item{uid}{Specified ID of a user.}
 
   \item{screen_name}{The nickname of the user that ID is
   specified.}

@@ -26,14 +26,15 @@ registerApp <- function(app_name, app_key, app_secret) {
 	apppath <- file.path(system.file(package = "Rweibo"), "oauth")
 	if (!file.exists(apppath)) dir.create(apppath)
 	if (file.exists(file.path(apppath, app_name))) {
-		stop(paste("The App", app_name, "has been registered, please use 'modifyApp' to make change."))
+		warning(paste("The App", app_name, "has been registered, please use 'modifyApp' to make change."))
+		invisible(FALSE)
 	} else {
 		applist <- list(app_key = app_key, app_secret = app_secret, app_token = list())
 		appfile <- file(file.path(apppath, app_name) , open = "w" )
 		writeLines(toJSON(applist), appfile)
 		close(appfile)
+		invisible(TRUE)
 	}
-	return(TRUE)
 }
 
 ##' @rdname registerApp

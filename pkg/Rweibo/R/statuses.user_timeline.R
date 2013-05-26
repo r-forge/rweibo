@@ -5,7 +5,7 @@
 ##' 
 ##' @title Return the latest weibos of one user.
 ##' @param roauth A OAuth object created by \code{\link{createOAuth}}.
-##' @param uid Return the weibos of specified ID of a user.
+##' @param uid Specified ID of a user.
 ##' @param screen_name The nickname of the user that ID is specified.
 ##' @param count The returned count for every page.The default value is 20.
 ##' @param page The returned page.The default value is 1.
@@ -54,5 +54,5 @@ statuses.user_timeline <- function(roauth, uid, screen_name, count = 20,
 	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
 	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
 	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
-	return(returnthis$statuses)
+	return(returnthis)
 }

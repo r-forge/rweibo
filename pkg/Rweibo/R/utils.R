@@ -134,4 +134,58 @@
 	return(OUT)
 }
 
+.parseUserList <- function(UserList, prefix = "") {
+	ColName <- c("idstr", "screen_name", "province", "city", "location", "description", 
+			"gender", "followers_count", "friends_count", "statuses_count",
+			"favourites_count", "geo_enabled", "created_at", 
+			"following", "follow_me", "bi_followers_count", 					
+			"verified", "verified_type", "verified_reason")
+
+	if (is.null(UserList)) {
+		OUT <- as.data.frame(t(rep(NA, length(ColName))), stringsAsFactors = FALSE)
+		names(OUT) <- ColName
+	} else {
+		OUT <- as.data.frame(t(unlist(UserList[ColName])), stringsAsFactors = FALSE)
+	}
+	
+	if (nzchar(prefix)) names(OUT) <- paste(prefix, names(OUT), sep = "_")
+	return(OUT)
+}
+
+.parseRepostList <- function(RepostList, prefix = "") {
+	ColName <- c("created_at", "mid", "text", "reposts_count", "comments_count", 
+			"attitudes_count" , "in_reply_to_status_id", "in_reply_to_user_id", 
+			"in_reply_to_screen_name")
+	
+	if (is.null(RepostList)) {
+		OUT <- as.data.frame(t(rep(NA, length(ColName))), stringsAsFactors = FALSE)
+		names(OUT) <- ColName
+	} else {
+		tmp.list <- RepostList[ColName]
+		names(tmp.list) <- ColName
+		tmp.list <- lapply(tmp.list, FUN = function(X) if (is.null(X)) NA else X)
+		OUT <- as.data.frame(t(unlist(tmp.list)), stringsAsFactors = FALSE)
+	}
+	
+	if (nzchar(prefix)) names(OUT) <- paste(prefix, names(OUT), sep = "_")
+	return(OUT)
+}
+
+.parseCommentList <- function(CommentList, prefix = "") {
+	ColName <- c("created_at", "mid", "text", "source")
+	
+	if (is.null(CommentList)) {
+		OUT <- as.data.frame(t(rep(NA, length(ColName))), stringsAsFactors = FALSE)
+		names(OUT) <- ColName
+	} else {
+		tmp.list <- CommentList[ColName]
+		names(tmp.list) <- ColName
+		tmp.list <- lapply(tmp.list, FUN = function(X) if (is.null(X)) NA else X)
+		OUT <- as.data.frame(t(unlist(tmp.list)), stringsAsFactors = FALSE)
+	}
+	
+	if (nzchar(prefix)) names(OUT) <- paste(prefix, names(OUT), sep = "_")
+	return(OUT)
+}
+
 

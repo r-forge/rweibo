@@ -42,27 +42,28 @@ createOAuth <- function(app_name, access_name, authorize = TRUE,
 		oauthobj$oauthLife <- "-1"
 	}
 	
-	testweburl <- "http://weibo.com"
-	testwebcon <- getURL(testweburl, curl = oauthobj$webCurl, .encoding = "UTF-8")
-	#testwebcon <- iconv(testwebcon, "GBK", "UTF-8")
-	loginRetcode <- sapply(strsplit(.strextract(testwebcon, "retcode=[0-9]+")[[1]], split = "="), 
-			FUN = function(X) as.numeric(X[2]))
-	if (length(loginRetcode) == 0 || identical(loginRetcode[1], 0)) {
-		configlist <- strsplit(.strextract(testwebcon, "\\$CONFIG\\[[^;]*;")[[1]], split = "=")
-		configname <- .strtrim(gsub("[\\$CONFIG\\[']|['\\]]", "", sapply(configlist, FUN = function(X) X[1])))
-		configvalue <- .strtrim(gsub("[.*']|['.*]|[;]", "", sapply(configlist, FUN = function(X) X[2])))
-		if (configvalue[which(configname == "islogin")] == "1") {
-			oauthobj$webName = configvalue[which(configname == "nick")]
-			oauthobj$webUser = configvalue[which(configname == "uid")]
-			oauthobj$webMsg <- "cookies were saved! (COOKIE.cookies)"
+	if (login) {
+		testweburl <- "http://weibo.com"
+		testwebcon <- getURL(testweburl, curl = oauthobj$webCurl, .encoding = "UTF-8")
+		#testwebcon <- iconv(testwebcon, "GBK", "UTF-8")
+		loginRetcode <- sapply(strsplit(.strextract(testwebcon, "retcode=[0-9]+")[[1]], split = "="), 
+				FUN = function(X) as.numeric(X[2]))
+		if (length(loginRetcode) == 0 || identical(loginRetcode[1], 0)) {
+			configlist <- strsplit(.strextract(testwebcon, "\\$CONFIG\\[[^;]*;")[[1]], split = "=")
+			configname <- .strtrim(gsub("[\\$CONFIG\\[']|['\\]]", "", sapply(configlist, FUN = function(X) X[1])))
+			configvalue <- .strtrim(gsub("[.*']|['.*]|[;]", "", sapply(configlist, FUN = function(X) X[2])))
+			if (configvalue[which(configname == "islogin")] == "1") {
+				oauthobj$webName = configvalue[which(configname == "nick")]
+				oauthobj$webUser = configvalue[which(configname == "uid")]
+				oauthobj$webMsg <- "cookies were saved! (COOKIE.cookies)"
+			} else {
+				warning("cookies test failed (not login), please check the connection or your setting.", call. = FALSE)
+			}
 		} else {
-			warning("cookies test failed (not login), please check the connection or your setting.", call. = FALSE)
+			warning(paste("cookies test failed (", loginRetcode[1], 
+							"), please check the connection or your setting.", sep = ""), call. = FALSE)
 		}
-	} else {
-		warning(paste("cookies test failed (", loginRetcode[1], 
-						"), please check the connection or your setting.", sep = ""), call. = FALSE)
 	}
-	
 	
 	return(oauthobj)
 }

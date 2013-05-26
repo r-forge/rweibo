@@ -48,5 +48,5 @@ statuses.show <- function(roauth, id, ...) {
 	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
 	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
 	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
-	return(returnthis$statuses)
+	return(returnthis)
 }

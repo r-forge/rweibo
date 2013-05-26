@@ -229,7 +229,7 @@ setMethod("show", signature="weibo2.0",
 			if (nzchar(object$webUser)) {
 				print(gsub("COOKIE", object$oauthName, object$webMsg))
 			} else {
-				print("not logged in, please use '$login(username, password)' to login.")
+				#print("not logged in, please use '$login(username, password)' to login.")
 			}
 		}
 )
