@@ -2,7 +2,7 @@
 \alias{uninstallDict}
 \title{Uninstall the user defined dictionary.}
 \usage{
-  uninstallDict(removedict = listDict())
+  uninstallDict(removedict = listDict()$Name)
 }
 \arguments{
   \item{removedict}{Names of the dictionary to be

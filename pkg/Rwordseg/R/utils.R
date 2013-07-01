@@ -16,3 +16,32 @@
 	return(OUT)
 }
 
+.addDictMeta <- function(Name, Type = "", Des = "") {
+	Metafile <- file.path(getOption("app.dir"), "dicmeta")
+	if (file.exists(Metafile)) {
+		oriDf <- readRDS(Metafile)
+	} else {
+		oriDf <- data.frame(Name = character(0), Type = character(0), Des = character(0),  stringsAsFactors = FALSE)
+	}	
+	newDf <- data.frame(Name = Name, Type = Type, Des = Des,  stringsAsFactors = FALSE)
+	if (Name %in% oriDf$Name) {
+		warning(paste("'", Name, "' was installed!"))
+	} else {
+		outDf <- rbind(oriDf, newDf)
+		saveRDS(outDf, Metafile)
+	}
+}
+
+.removeDictMeta <- function(Names) {
+	Metafile <- file.path(getOption("app.dir"), "dicmeta")
+	oriDf <- readRDS(Metafile)
+	if (!any(Names %in% oriDf$Name)) {
+		warning(paste("There is no '", Names, "' installed!"))
+	} else {
+		outDf <- oriDf[-which(oriDf$Name %in% Names), ]
+		saveRDS(outDf, Metafile)
+	}
+}
+
+
+

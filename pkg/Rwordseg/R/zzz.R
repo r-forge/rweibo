@@ -5,9 +5,10 @@
 
 .onAttach <- function(libname, pkgname ){
 	packageStartupMessage( paste("# Version:", utils:::packageDescription("Rwordseg", fields = "Version")) )
+	options(dic.dir = system.file("dict", package = "Rwordseg"))
+	options(app.dir = system.file("config", package = "Rwordseg"))
 	.jpackage(pkgname, lib.loc=libname)
-	dictpath <- system.file("config", "userdic", package = "Rwordseg")
-	dictpath <- chartr("\\", "/", dictpath)
+	dictpath <- chartr("\\", "/", file.path(getOption("app.dir"), "userdic"))
 	if (!exists(".RwordsegEnv", envir = .GlobalEnv)) {
 		assign(".RwordsegEnv", new.env(), envir = .GlobalEnv)
 	}
@@ -18,7 +19,6 @@
 	.jcall(Analyzer, "V", "setDicPath", dictpath)
 	.jcall(Analyzer, "V", "initialAnalyzer")
 	assign("Analyzer", Analyzer, envir = .RwordsegEnv)
-	options(dic.dir = system.file("dict", package = "Rwordseg"))
 	tryload <- try(loadUserDict(), silent = TRUE)
 	if (inherits(tryload, "try-error")) warning(paste("Fail to load the user defined dictionary:\n", as.character(tryload)))
 }

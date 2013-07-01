@@ -21,7 +21,7 @@ installDict <- function(dictpath, dictname = "userDefine", dicttype = c("text", 
 	if (dic.type == "text" && dic.suffix %in% dicttype) dic.type <- dic.suffix
 	if (dictname == "n") dictname <- "userDefine"
 	
-	ori.dic <- readLines(system.file("config", "userdic", package = "Rwordseg"))
+	ori.dic <- readLines(file.path(getOption("app.dir"), "userdic"))
 	Encoding(ori.dic) <- "UTF-8"
 	ori.dic <- ori.dic[nzchar(ori.dic)]
 	oriwords <- sapply(strsplit(ori.dic, "\t"), FUN = function(X) X[1])
@@ -35,16 +35,19 @@ installDict <- function(dictpath, dictname = "userDefine", dicttype = c("text", 
 				newwords <- sapply(strsplit(tmp.dic, "\t| "), FUN = function(X) X[1])
 				newwords <- unique(newwords[!is.na(newwords)])
 				newwords <- tolower(gsub(" ", "", newwords))
+				.addDictMeta(dictname, "", basename(dictpath))
 			},
 			scel = {
-				newwords <- tolower(as.vector(importSogouScel(dictpath)))
+				sogouV <- importSogouScel(dictpath)
+				newwords <- tolower(as.vector(sogouV))
+				.addDictMeta(dictname, attributes(sogouV)$Type, attributes(sogouV)$Description)
 			}
 	)
 	
 	addwords <- newwords[! newwords %in% oriwords]
 	outwords <- c(ori.dic, paste(addwords, dictname, 1000, sep = "\t"))
 	Encoding(outwords) <- "GBK"
-	writeLines(outwords, system.file("config", "userdic", package = "Rwordseg"))
+	writeLines(outwords, file.path(getOption("app.dir"), "userdic"))
 	cat("OK!\nNew dictionary was installed, please restart R to use it.\n")
 }
 
