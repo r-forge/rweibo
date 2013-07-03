@@ -47,7 +47,7 @@
 \examples{
 \dontrun{
 
-statuses.repost_timeline(roauth, count = 5)
+statuses.repost_timeline(roauth, id = "3575234466298494", count = 5)
 }
 }
 \author{

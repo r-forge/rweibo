@@ -54,5 +54,5 @@ statuses.user_timeline <- function(roauth, uid, screen_name, count = 20,
 	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
 	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
 	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
-	return(returnthis)
+	return(returnthis$statuses)
 }

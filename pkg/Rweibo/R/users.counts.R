@@ -19,18 +19,16 @@
 ##' @keywords Users
 ##' @examples \dontrun{
 ##' 
-##' users.counts(roauth, uids = "1318558807")
+##' users.counts(roauth, uids = c("1318558807", "1869170057"))
 ##' }
 
-users.counts <- function(roauth, uids, ...) {
+users.counts <- function(roauth, uids) {
 	requestURL <- "https://api.weibo.com/2/users/counts.json"
-	funCall <- match.call()
-	params <- as.list(funCall)
-	params[[1]] <- NULL
-	params[["roauth"]] <- NULL
+	if (any(grepl(",", uids))) uids <- .strtrim(unlist(strsplit(uids, split = ",")))
+	params <- list(uids = paste(uids, collapse = ","))
 
 	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
 	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
 	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
-	return(returnthis)
+	return(do.call("rbind", lapply(returnthis, as.data.frame, stringsAsFactors = FALSE)))
 }

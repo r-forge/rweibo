@@ -38,7 +38,7 @@
 ##' @keywords Weibo
 ##' @examples \dontrun{
 ##' 
-##' statuses.repost_timeline(roauth, count = 5)
+##' statuses.repost_timeline(roauth, id = "3575234466298494", count = 5)
 ##' }
 
 statuses.repost_timeline <- function(roauth, id, count = 20, page = 1, filter_by_author = 0, ...) {
@@ -51,5 +51,5 @@ statuses.repost_timeline <- function(roauth, id, count = 20, page = 1, filter_by
 	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
 	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
 	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
-	return(returnthis)
+	return(returnthis$reposts)
 }

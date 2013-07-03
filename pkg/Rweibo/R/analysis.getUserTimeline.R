@@ -48,7 +48,7 @@ analysis.getUserTimeline <- function(roauth, uid = NULL, screen_name = NULL, cou
 	for (ipage in pagestart:pagenum) {
 		res.tmp <- do.call("statuses.user_timeline", do.call("c", 
 						list(roauth = roauth, uid = uid, screen_name = screen_name, count = 100, page = ipage)))
-		df.tmp <- do.call("rbind", lapply(res.tmp$statuses, FUN = function(X) 
+		df.tmp <- do.call("rbind", lapply(res.tmp, FUN = function(X) 
 				cbind(.parseRepostList(X), 
 						.parseRepostList(X$retweeted_status, prefix = "retweeted"),
 						.parseUserList(X$retweeted_status$user, prefix = "retweeted_user")

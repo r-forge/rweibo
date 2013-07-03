@@ -37,7 +37,7 @@ analysis.getComments <- function(roauth, mid, count = -1, startcount = 1) {
 	OUT <- data.frame()
 	for (ipage in pagestart:pagenum) {
 		res.tmp <- do.call("comments.show", list(roauth = roauth, id = mid, count = 200, page = ipage))
-		df.tmp <- do.call("rbind", lapply(res.tmp$comments, FUN = function(X) 
+		df.tmp <- do.call("rbind", lapply(res.tmp, FUN = function(X) 
 				cbind(.parseCommentList(X), .parseUserList(X$user, prefix = "User"))
 		))
 		OUT <- rbind(OUT, df.tmp)

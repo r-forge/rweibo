@@ -40,5 +40,5 @@ comments.show <- function(roauth, id, count = 20, page = 1, filter_by_author = 0
 	returnthis <- .get(requestURL, roauth$oauthToken, params=params)
 	roauth$oauthLimits$RemainingHits[6] = roauth$oauthLimits$RemainingHits[6] - 1
 	roauth$oauthLimits$RemainingHits[7] = roauth$oauthLimits$RemainingHits[7] - 1
-	return(returnthis)
+	return(returnthis$comments)
 }

@@ -33,7 +33,7 @@ web.search.user <- function(screen_name, roauth = NULL)
 		weibojson <- gsub("\\)$", "", gsub("^.*STK.pageletM.view\\(", "", weiboline))
 		
 	} else {
-		resXML <- getURL(strurl, curl = curl, .encoding = 'UTF-8')
+		resXML <- getURL(strurl, curl = roauth$webCurl, .encoding = 'UTF-8')
 		resHTMLs <- .strextract(resXML, "<script>.+?</script>")[[1]]
 		resHTML <- resHTMLs[grep("\"pid\":\"pl_user_feedList\"", resHTMLs)][1]
 		if (is.na(resHTML)) {

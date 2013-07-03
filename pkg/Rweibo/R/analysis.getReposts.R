@@ -37,7 +37,7 @@ analysis.getReposts <- function(roauth, mid, count = -1, startcount = 1) {
 	OUT <- data.frame()
 	for (ipage in pagestart:pagenum) {
 		res.tmp <- do.call("statuses.repost_timeline", list(roauth = roauth, id = mid, count = 200, page = ipage))
-		df.tmp <- do.call("rbind", lapply(res.tmp$reposts, FUN = function(X) 
+		df.tmp <- do.call("rbind", lapply(res.tmp, FUN = function(X) 
 				cbind(.parseRepostList(X), .parseUserList(X$user, prefix = "User"))
 		))
 		OUT <- rbind(OUT, df.tmp)

@@ -2,7 +2,7 @@
 \alias{users.counts}
 \title{Return the followers counts,friends counts, and weibo counts of a batch of users.}
 \usage{
-  users.counts(roauth, uids, ...)
+  users.counts(roauth, uids)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -27,7 +27,7 @@
 \examples{
 \dontrun{
 
-users.counts(roauth, uids = "1318558807")
+users.counts(roauth, uids = c("1318558807", "1869170057"))
 }
 }
 \author{

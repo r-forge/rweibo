@@ -135,15 +135,14 @@ setRefClass("weibo2.0",
 			login = function(username, password) {
 				base64_username <- RCurl:::base64(URLencode(username, reserved=TRUE))[[1]]
 				preloginURL <- paste("http://login.sina.com.cn/sso/prelogin.php", 
-						"?entry=miniblog&callback=sinaSSOController.preloginCallBack&su=", 
-						base64_username, "&client=ssologin.js(v1.4.5)", sep = "")
+						"?entry=sso&callback=sinaSSOController.preloginCallBack&su=", 
+						base64_username, "&rsakt=mod&client=ssologin.js(v1.4.5)", sep = "")
 				loginURL <- "http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.5)"
 				
 				preloginJson <- .post(preloginURL, oauthKey = "", transjson = FALSE)
 				preloginList <- .fromJSON(.strextract(preloginJson, "\\{.*\\}")[[1]])
-				enPassword <- paste(digest(digest(password, algo= "sha1", serialize = FALSE), algo= "sha1", serialize = FALSE),
-						as.character(preloginList$servertime), preloginList$nonce, sep = "")
-				enPassword <- digest(enPassword, algo= "sha1", serialize = FALSE)
+				#enPassword <- .encryptPwd(password, servertime = preloginList$servertime, nonce = preloginList$nonce)
+				enPassword <- .encryptPwd(password, servertime = preloginList$servertime, nonce = preloginList$nonce, pubkey = preloginList$pubkey)
 				params <- base::list(
 						entry = "weibo",
 						gateway = "1",
@@ -156,8 +155,8 @@ setRefClass("weibo2.0",
 						service = "miniblog", 
 						servertime = as.character(preloginList$servertime),
 						nonce = preloginList$nonce,
-						pwencode = "wsse",
-						rsakv = "",
+						pwencode = "rsa2",
+						rsakv = preloginList$rsakv,
 						sp = enPassword,
 						encoding = "utf-8", 
 						prelt = "",
@@ -189,6 +188,32 @@ setRefClass("weibo2.0",
 				.self$webCurl <- getCurlHandle(followlocation = TRUE, verbose = TRUE, 
 						ssl.verifyhost = FALSE, ssl.verifypeer = FALSE, 
 						cookiejar = cookieFile, cookiefile = cookieFile)
+				.self$testcookie()
+			},
+			testcookie = function(silent = FALSE) {
+				testweburl <- "http://weibo.com"
+				testwebcon <- getURL(testweburl, curl = .self$webCurl, .encoding = "UTF-8")
+				loginRetcode <- sapply(strsplit(.strextract(testwebcon, "retcode=[0-9]+")[[1]], split = "="), 
+						FUN = function(X) as.numeric(X[2]))
+				if (length(loginRetcode) == 0 || identical(loginRetcode[1], 0)) {
+					configlist <- strsplit(.strextract(testwebcon, "\\$CONFIG\\[[^;]*;")[[1]], split = "=")
+					configname <- .strtrim(gsub("[\\$CONFIG\\[']|['\\]]", "", sapply(configlist, FUN = function(X) X[1])))
+					configvalue <- .strtrim(gsub("[.*']|['.*]|[;]", "", sapply(configlist, FUN = function(X) X[2])))
+					if (configvalue[which(configname == "islogin")] == "1") {
+						.self$webName = configvalue[which(configname == "nick")]
+						.self$webUser = configvalue[which(configname == "uid")]
+						.self$webMsg <- "cookies were saved! (COOKIE.cookies)"
+						if (!silent) cat("Login successfully!\n")
+						invisible(TRUE)
+					} else {
+						if (!silent) warning("cookies test failed (not login), please check the connection or your setting.", call. = FALSE)
+						invisible(FALSE)
+					}
+				} else {
+					if (!silent) warning(paste("cookies test failed (", loginRetcode[1], 
+									"), please check the connection or your setting.", sep = ""), call. = FALSE)
+					invisible(FALSE)
+				}
 			},
 			save = function() {
 				applist <- listApp(.self$appName)
