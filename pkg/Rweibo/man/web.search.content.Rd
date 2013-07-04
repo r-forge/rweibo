@@ -28,6 +28,9 @@
   \item{sleepsd}{Standard deviations of the sleeping time
   before each searching.}
 
+  \item{roauth}{A OAuth object created by
+  \code{\link{createOAuth}}.}
+
   \item{...}{Other request parameters for this API.}
 }
 \value{

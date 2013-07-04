@@ -128,7 +128,7 @@
 	}
 	
 	if (api == "RJSONIO") {
-		OUT <- RJSONIO:::fromJSON(json_str = content, ...)
+		OUT <- RJSONIO:::fromJSON(content = json, ...)
 	}
 	
 	return(OUT)
@@ -194,18 +194,18 @@
 	#OUT <- paste(OUT, as.character(servertime), nonce, sep = "")
 	#OUT <- digest(OUT, algo= "sha1", serialize = FALSE)
 	#return(OUT)
-	rsaPublickey = as.bigz(.hextoint(pubkey))
-	key.pub = PKI.mkRSApubkey(rsaPublickey, exponent=65537L, format = "key")
+	rsaPublickey = .hextoint(pubkey)
+	key.pub = PKI:::PKI.mkRSApubkey(rsaPublickey, exponent=65537L, format = "key")
 	raw.message = charToRaw(paste(servertime, "\t", nonce, "\n", oripwd, sep = ""))
-	str.pwd <- PKI.encrypt(raw.message, key.pub)
-	raw2hex(str.pwd, sep = "")
+	str.pwd <- PKI:::PKI.encrypt(raw.message, key.pub)
+	PKI:::raw2hex(str.pwd, sep = "")
 	
 }
 
 .hextoint <- function(h) {
 	xx = strsplit(tolower(h), "")[[1L]]
 	pos = match(xx, c(0L:9L, letters[1L:6L]))
-	sum((pos - 1L) * 16^as.bigz(rev(seq_along(xx) - 1)))
+	sum((pos - 1L) * 16^gmp:::as.bigz(rev(seq_along(xx) - 1)))
 }
 
 

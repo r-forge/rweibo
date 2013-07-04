@@ -1,5 +1,7 @@
 \name{weibo2.0-class}
 \docType{class}
+\alias{weibo2.0-class}
+\alias{weibo2.0}
 \alias{expiresIn}
 \alias{getLimits}
 \alias{authorize}

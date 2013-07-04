@@ -5,6 +5,7 @@
 ##' 
 ##' @title Search user by nick name.
 ##' @param screen_name Nick name of a user.
+##' @param roauth A OAuth object created by \code{\link{createOAuth}}.
 ##' @return 
 ##'  A data.frame of weibos, each weibo contains: 
 ##'  \item{uid}{User ID}

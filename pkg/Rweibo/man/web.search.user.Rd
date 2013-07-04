@@ -6,6 +6,9 @@
 }
 \arguments{
   \item{screen_name}{Nick name of a user.}
+
+  \item{roauth}{A OAuth object created by
+  \code{\link{createOAuth}}.}
 }
 \value{
   A data.frame of weibos, each weibo contains:

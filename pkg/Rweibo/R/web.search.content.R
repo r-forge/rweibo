@@ -11,6 +11,7 @@
 ##' @param sinceID If not NULL, returns weibos with IDs greater (ie newer) than the specified ID.
 ##' @param sleepmean Mean of the sleeping time before each searching.
 ##' @param sleepsd Standard deviations of the sleeping time before each searching.
+##' @param roauth A OAuth object created by \code{\link{createOAuth}}.
 ##' @param ... Other request parameters for this API.
 ##' @return 
 ##'  A data.frame of weibos, each weibo contains: 

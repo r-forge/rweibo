@@ -133,6 +133,9 @@ setRefClass("weibo2.0",
 				try(.self$oauthTime <- format(Sys.time(), "%Y-%m-%d %H:%M:%S"), silent = TRUE)
 			},
 			login = function(username, password) {
+				if (!require(PKI, quietly = TRUE, warn.conflicts = FALSE) || !require(gmp, quietly = TRUE, warn.conflicts = FALSE)) {
+					stop("Please install the 'PKI' and 'gmp' packages!")
+				}
 				base64_username <- RCurl:::base64(URLencode(username, reserved=TRUE))[[1]]
 				preloginURL <- paste("http://login.sina.com.cn/sso/prelogin.php", 
 						"?entry=sso&callback=sinaSSOController.preloginCallBack&su=", 

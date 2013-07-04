@@ -3,12 +3,13 @@ License: GPL
 Title: An interface to the Weibo open platform
 Type: Package
 LazyLoad: yes
-Author: Jian Li <rweibo@sina.com>, Yibo Chen <chenyibo.zjumath@gmail.com>
+Author: Jian Li, Yibo Chen
 Maintainer: Jian Li <rweibo@sina.com>
 Description: This package provides an interface to sina weibo using
-    OAuth 2.0
+    OAuth 2.0 and cookies
 Version: 0.2-7
 Date: 2013-07-04
-Depends: R (>= 2.12.0), methods, utils, tools, RCurl, rjson, XML, digest, gmp, PKI
+Depends: R (>= 2.12.0), methods, utils, tools, RCurl, rjson, XML, digest
+Enhances: gmp, PKI
 Imports: methods
 
