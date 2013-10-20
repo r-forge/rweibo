@@ -7,6 +7,8 @@
 ##' @param nature Whether to recognise the nature of the words.
 ##' @param nosymbol Whether to keep symbols in the sentence.
 ##' @param recognition Whether to recognise the person names automatically.
+##' @param returnType Default is a string vector but we also can choose 'tm' 
+##' to output a single string separated by space so that it can be used by \code{\link[tm]{Corpus}} directly. 
 ##' @return a vector of words (list if input is vecter) which have been segmented.
 ##' @author Jian Li <\email{rweibo@@sina.com}>
 ##' @examples \dontrun{
@@ -14,8 +16,9 @@
 ##' }
 
 segmentCN <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv), 
-		nature = FALSE, nosymbol = TRUE, recognition = TRUE) {
+		nature = FALSE, nosymbol = TRUE, recognition = TRUE, returnType = c("vector", "tm")) {
 	if (!is.character(strwords)) stop("Please input character!")
+	returnType <- match.arg(returnType)
 	if (length(strwords) == 1) {
 		if (nature) {
 			strfunc <- ifelse(recognition, "segWordNature", "segWordNatureNoRecog")
@@ -43,9 +46,12 @@ segmentCN <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv)
 			OUT <- OUT[nzchar(OUT)]
 		}
 		if (length(OUT) == 0) OUT <- ""
+		if (returnType == "tm") OUT <- paste(OUT, collapse = " ")
 		return(OUT)
 	} else {
-		return(lapply(strwords, segmentCN, analyzer, nature, nosymbol))
+		OUT <- sapply(strwords, segmentCN, analyzer, nature, nosymbol, recognition, returnType)
+		names(OUT) <- NULL
+		return(OUT)
 	}
 }
 

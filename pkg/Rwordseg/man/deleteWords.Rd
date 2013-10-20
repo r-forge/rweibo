@@ -1,8 +1,8 @@
-\name{removeWords}
-\alias{removeWords}
+\name{deleteWords}
+\alias{deleteWords}
 \title{Remove words into dictionary.}
 \usage{
-  removeWords(strwords,
+  deleteWords(strwords,
     analyzer = get("Analyzer", envir = .RwordsegEnv))
 }
 \arguments{
