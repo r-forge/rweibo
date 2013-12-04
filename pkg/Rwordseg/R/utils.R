@@ -43,5 +43,44 @@
 	}
 }
 
+.setNameReco <- function(isReco = TRUE) {
+	analyzer = get("Analyzer", envir = .RwordsegEnv)
+	tmp <- try(.jcall(analyzer, "V", "setNameRecognition", isReco), silent = TRUE)
+}
+
+.setNumReco <- function(isReco = TRUE) {
+	analyzer = get("Analyzer", envir = .RwordsegEnv)
+	tmp <- try(.jcall(analyzer, "V", "setNumRecognition", isReco), silent = TRUE)
+}
+
+.setQuantifierReco <- function(isReco = TRUE) {
+	analyzer = get("Analyzer", envir = .RwordsegEnv)
+	tmp <- try(.jcall(analyzer, "V", "setQuantifierRecognition", isReco), silent = TRUE)
+}
+
+.toTrad <- function(string)
+{
+	transDf <- get("data.trad", envir = .RwordsegEnv)
+	OUT <- chartr(transDf$Tra, transDf$Sim, string)
+	return(OUT)
+}
+
+.segWord <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv)) {
+	OUT <- .jcall(analyzer, "S", "segWord", strwords)
+	Encoding(OUT) <- "UTF-8"
+	return(OUT)
+}
+
+.segWordInd <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv)) {
+	OUT <- .jcall(analyzer, "S", "segWordInd", strwords)
+	return(OUT)
+}
+
+.segWord <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv)) {
+	OUT <- .jcall(analyzer, "S", "segWord", strwords)
+	Encoding(OUT) <- "UTF-8"
+	return(OUT)
+}
+
 
 

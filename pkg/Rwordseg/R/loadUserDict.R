@@ -16,6 +16,7 @@ loadUserDict <- function() {
 			tmp <- readLines(dictfiles[i])
 			if (getOption("encoding") != "UTF-8") tmp <- iconv(tmp, tmp.enc, "UTF-8")
 			tmp <- tmp[nzchar(tmp)]
+			tmp <- .toTrad(tmp)
 			if (length(tmp) > 0) insertWords(tmp)
 		}
 	}
