@@ -32,8 +32,12 @@ segmentCN <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv)
 		tmp.enc <- .detectEncoding(strwords)[1]
 		#if (tmp.enc != "UTF-8") tmp.enc <- "GBK"
 		nlines <- blocklines
-		old.locale <- Sys.getlocale("LC_CTYPE")
-		Sys.setlocale(category = "LC_CTYPE", locale = "chs")
+		
+		if (.Platform$OS.type == "windows"){
+			old.locale <- Sys.getlocale("LC_CTYPE")
+			Sys.setlocale(category = "LC_CTYPE", locale = "chs")
+		}
+		
 		conn.r <- file(strwords, open = "r")
 		conn.w <- file(outfile, open = "a", encoding = "UTF-8")
 		OUT <- FALSE
@@ -55,7 +59,9 @@ segmentCN <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv)
 				finally = {
 					try(close(conn.r), silent = TRUE)
 					try(close(conn.w), silent = TRUE)
-					Sys.setlocale(category = "LC_CTYPE", locale = old.locale)
+					if (.Platform$OS.type == "windows"){
+						Sys.setlocale(category = "LC_CTYPE", locale = old.locale)
+					}
 				}
 		)
 	} else {

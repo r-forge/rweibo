@@ -10,7 +10,7 @@ listDict <- function() {
 	if (file.exists(Metafile)) {
 		OUT <- readRDS(Metafile)
 	} else {
-		OUT <- data.frame(Name = character(0), Type = character(0), Des = character(0),  stringsAsFactors = FALSE)
+		OUT <- data.frame(Name = character(0), Type = character(0), Des = character(0), Path = character(0), stringsAsFactors = FALSE)
 	}
 	return(OUT)
 }

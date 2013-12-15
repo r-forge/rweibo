@@ -1,8 +1,11 @@
-\name{loadUserDict}
-\alias{loadUserDict}
+\name{loadDict}
+\alias{loadDict}
 \title{Load user defined dictionary.}
 \usage{
-  loadUserDict()
+  loadDict(dictpath = getOption("dic.dir"))
+}
+\arguments{
+  \item{dictpath}{The path of dictionary file or folder .}
 }
 \value{
   No results.

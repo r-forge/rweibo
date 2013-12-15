@@ -7,6 +7,7 @@
 	packageStartupMessage( paste("# Version:", utils:::packageDescription("Rwordseg", fields = "Version")) )
 	options(dic.dir = system.file("dict", package = "Rwordseg"))
 	options(app.dir = system.file("config", package = "Rwordseg"))
+	.cleanjars()
 	.jpackage(pkgname, lib.loc=libname)
 	dictpath <- chartr("\\", "/", file.path(getOption("app.dir"), "userdic"))
 	if (!exists(".RwordsegEnv", envir = .GlobalEnv)) {
@@ -27,7 +28,7 @@
 			stringsAsFactors = FALSE)
 	assign("data.trad", data.trad, envir = .RwordsegEnv)
 	
-	tryload <- try(loadUserDict(), silent = TRUE)
+	tryload <- try(loadDict(), silent = TRUE)
 	if (inherits(tryload, "try-error")) warning(paste("Fail to load the user defined dictionary:\n", as.character(tryload)))
 	
 	segment.options(isNameRecognition = FALSE)

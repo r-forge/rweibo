@@ -16,14 +16,14 @@
 ##'
 
 RwordsegTest <- function(TestPath = system.file(package="Rwordseg", "unittests"), 
-		TestResult = NULL, ResultsType = c("html", "text"))
+		TestResult = NULL, ResultsType = c("html", "text"), testFileRegexp = "^runit\\..+\\.[rR]$")
 {
 	if(!require("RUnit", quietly = TRUE)) stop("There is no 'RUnit' package!")
 	TestPath <- normalizePath(TestPath, winslash = "/", mustWork = TRUE)
 	ResultsType <- match.arg(ResultsType)
 	if (!exists(".RwordsegTestEnv", envir = .GlobalEnv)) assign(".RwordsegTestEnv", new.env(), envir = .GlobalEnv)
 	assign("TestPath", TestPath, envir = .RwordsegTestEnv)
-	TestSuite <- defineTestSuite("Rwordseg tests", dirs = TestPath, testFileRegexp = "^runit\\..+\\.[rR]$")
+	TestSuite <- defineTestSuite("Rwordseg tests", dirs = TestPath, testFileRegexp = testFileRegexp)
 	OUT <- runTestSuite(TestSuite)
 	if(!is.null(TestResult)) {
 		TestResult <- paste(gsub(paste("\\.", ResultsType, sep = ""), "", 

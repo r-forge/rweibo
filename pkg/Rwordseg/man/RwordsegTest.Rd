@@ -3,7 +3,8 @@
 \title{Run unit tests.}
 \usage{
   RwordsegTest(TestPath = system.file(package = "Rwordseg", "unittests"),
-    TestResult = NULL, ResultsType = c("html", "text"))
+    TestResult = NULL, ResultsType = c("html", "text"),
+    testFileRegexp = "^runit\\..+\\.[rR]$")
 }
 \arguments{
   \item{TestPath}{Path of the folder which contains the
