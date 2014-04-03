@@ -2,7 +2,7 @@
 \alias{common.get_country}
 \title{Return countries list.}
 \usage{
-  common.get_country(roauth, capital, language)
+common.get_country(roauth, capital, language)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -17,10 +17,10 @@
   English; Default is zh-cn.}
 }
 \value{
-  A list of countries.
+A list of countries.
 }
 \description{
-  Return countries list.
+Return countries list.
 }
 \examples{
 \dontrun{
@@ -29,10 +29,10 @@ common.get_country(roauth)
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/common/get_country}
+\url{http://open.weibo.com/wiki/2/common/get_country}
 }
 \keyword{Accounts}
 

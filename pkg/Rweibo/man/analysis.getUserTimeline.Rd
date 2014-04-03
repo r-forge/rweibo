@@ -2,8 +2,8 @@
 \alias{analysis.getUserTimeline}
 \title{Return the data.frame of weibos of one user.}
 \usage{
-  analysis.getUserTimeline(roauth, uid = NULL,
-    screen_name = NULL, count = -1, startcount = 1)
+analysis.getUserTimeline(roauth, uid = NULL, screen_name = NULL,
+  count = -1, startcount = 1)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -19,10 +19,10 @@
   \item{startcount}{The start number of reposts.}
 }
 \value{
-  A data.frame.
+A data.frame.
 }
 \description{
-  Return the data.frame of weibos of one user.
+Return the data.frame of weibos of one user.
 }
 \examples{
 \dontrun{
@@ -31,7 +31,7 @@ a1 <- analysis.getUserTimeline(roauth, screen_name = "rweibo")
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \keyword{Analysis}
 

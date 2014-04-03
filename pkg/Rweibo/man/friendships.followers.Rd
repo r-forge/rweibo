@@ -2,8 +2,7 @@
 \alias{friendships.followers}
 \title{Return the followers list of a user.}
 \usage{
-  friendships.followers(roauth, uid, screen_name,
-    count = 20, cursor = 0, ...)
+friendships.followers(roauth, uid, screen_name, count = 20, cursor = 0, ...)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -23,42 +22,41 @@
   \item{...}{Other request parameters for this API.}
 }
 \value{
-  A list of user, which contains: \item{id}{User ID}
-  \item{screen_name}{User nickname} \item{name}{Friendly
-  displayed name} \item{province}{Province ID user located}
-  \item{city}{City ID user located} \item{location}{Address
-  user located} \item{description}{User description}
-  \item{url}{Url of the user's blog}
-  \item{profile_image_url}{Profile image} \item{domain}{The
-  user's personalized weibo url} \item{gender}{Gender, m :
-  male; f : female; n : unknown}
-  \item{followers_count}{Followers count}
-  \item{friends_count}{Friends count}
-  \item{statuses_count}{Weibo count}
-  \item{favourites_count}{Favorites count}
-  \item{created_at}{Created time} \item{following}{Whether
-  the current user is following the user}
-  \item{allow_all_act_msg}{Whether all the people can send
-  direct message to the user} \item{geo_enabled}{Whether
-  can have the geography information}
-  \item{verified}{Whether the user is verified by his real
-  identity, marked with "V"}
-  \item{allow_all_comment}{Whether all the people can
-  comment the user's weibo} \item{avatar_large}{Profile
-  large image} \item{verified_reason}{verification reason}
-  \item{follow_me}{Whether the user is following the
-  current user} \item{online_status}{Whether the user is
-  online, 0 : offline, 1 : online}
-  \item{bi_followers_count}{The count of the users that are
-  following the user and are being followed by the user}
-  \item{status}{The latest weibo of the user}
+A list of user, which contains: \item{id}{User ID}
+\item{screen_name}{User nickname} \item{name}{Friendly
+displayed name} \item{province}{Province ID user located}
+\item{city}{City ID user located} \item{location}{Address
+user located} \item{description}{User description}
+\item{url}{Url of the user's blog}
+\item{profile_image_url}{Profile image} \item{domain}{The
+user's personalized weibo url} \item{gender}{Gender, m :
+male; f : female; n : unknown}
+\item{followers_count}{Followers count}
+\item{friends_count}{Friends count}
+\item{statuses_count}{Weibo count}
+\item{favourites_count}{Favorites count}
+\item{created_at}{Created time} \item{following}{Whether
+the current user is following the user}
+\item{allow_all_act_msg}{Whether all the people can send
+direct message to the user} \item{geo_enabled}{Whether can
+have the geography information} \item{verified}{Whether the
+user is verified by his real identity, marked with "V"}
+\item{allow_all_comment}{Whether all the people can comment
+the user's weibo} \item{avatar_large}{Profile large image}
+\item{verified_reason}{verification reason}
+\item{follow_me}{Whether the user is following the current
+user} \item{online_status}{Whether the user is online, 0 :
+offline, 1 : online} \item{bi_followers_count}{The count of
+the users that are following the user and are being
+followed by the user} \item{status}{The latest weibo of the
+user}
 }
 \description{
-  Return the followers list of a user.
+Return the followers list of a user.
 }
 \note{
-  You must provide a parameter either uid or screen_name.
-  You can get 5000 followers at the most.
+You must provide a parameter either uid or screen_name. You
+can get 5000 followers at the most.
 }
 \examples{
 \dontrun{
@@ -67,10 +65,10 @@ friendships.followers(roauth, uid = "1318558807")
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/friendships/followers}
+\url{http://open.weibo.com/wiki/2/friendships/followers}
 }
 \keyword{Friendships}
 

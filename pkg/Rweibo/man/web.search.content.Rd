@@ -2,9 +2,8 @@
 \alias{web.search.content}
 \title{Search content by word.}
 \usage{
-  web.search.content(sword, page = 1, combinewith = NULL,
-    since = NULL, sinceID = NULL, sleepmean = 3,
-    sleepsd = 1, roauth = NULL, ...)
+web.search.content(sword, page = 1, combinewith = NULL, since = NULL,
+  sinceID = NULL, sleepmean = 3, sleepsd = 1, roauth = NULL, ...)
 }
 \arguments{
   \item{sword}{The word to be searched.}
@@ -34,16 +33,16 @@
   \item{...}{Other request parameters for this API.}
 }
 \value{
-  A data.frame of weibos, each weibo contains:
-  \item{MID}{Weibo ID of string} \item{Author}{Nick name of
-  the author} \item{Weibo}{Weibo content}
-  \item{Forward}{Forward content} \item{Time_Weibo}{Time of
-  this weibo} \item{Time_Search}{Time of this search}
-  \item{Count_Forward}{Count of replys}
-  \item{Count_Reply}{Count of forwards}
+A data.frame of weibos, each weibo contains:
+\item{MID}{Weibo ID of string} \item{Author}{Nick name of
+the author} \item{Weibo}{Weibo content}
+\item{Forward}{Forward content} \item{Time_Weibo}{Time of
+this weibo} \item{Time_Search}{Time of this search}
+\item{Count_Forward}{Count of replys}
+\item{Count_Reply}{Count of forwards}
 }
 \description{
-  Search content by word.
+Search content by word.
 }
 \examples{
 \dontrun{
@@ -53,7 +52,7 @@ web.search.content("Rweibo", since = "2012-10-01")$Weibo
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \keyword{Search}
 

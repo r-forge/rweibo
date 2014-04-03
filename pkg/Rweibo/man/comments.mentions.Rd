@@ -2,8 +2,8 @@
 \alias{comments.mentions}
 \title{Return the latest comments metioned the authenticating user.}
 \usage{
-  comments.mentions(roauth, count = 20, page = 1,
-    filter_by_author = 0, filter_by_source = 0, ...)
+comments.mentions(roauth, count = 20, page = 1, filter_by_author = 0,
+  filter_by_source = 0, ...)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -25,17 +25,17 @@
   \item{...}{Other request parameters for this API.}
 }
 \value{
-  A list of weibos, each weibo contains: \item{idstr}{Weibo
-  ID of string} \item{created_at}{Created time}
-  \item{id}{Weibo ID} \item{text}{Weibo content}
-  \item{source}{Weibo source} \item{mid}{Weibo MID}
-  \item{user}{User profile that posted the weibo}
-  \item{status}{The weibo that is commented}
-  \item{reply_comment}{Replied comment information}
+A list of weibos, each weibo contains: \item{idstr}{Weibo
+ID of string} \item{created_at}{Created time}
+\item{id}{Weibo ID} \item{text}{Weibo content}
+\item{source}{Weibo source} \item{mid}{Weibo MID}
+\item{user}{User profile that posted the weibo}
+\item{status}{The weibo that is commented}
+\item{reply_comment}{Replied comment information}
 }
 \description{
-  Return the latest comments metioned the authenticating
-  user.(That is the comment contained @username)
+Return the latest comments metioned the authenticating
+user.(That is the comment contained @username)
 }
 \examples{
 \dontrun{
@@ -44,10 +44,10 @@ comments.mentions(roauth, count = 5)
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/comments/mentions}
+\url{http://open.weibo.com/wiki/2/comments/mentions}
 }
 \keyword{Comments}
 

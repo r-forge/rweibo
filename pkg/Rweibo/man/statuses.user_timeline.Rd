@@ -2,9 +2,8 @@
 \alias{statuses.user_timeline}
 \title{Return the latest weibos of one user.}
 \usage{
-  statuses.user_timeline(roauth, uid, screen_name,
-    count = 20, page = 1, base_app = 0, feature = 0,
-    trim_user = 0, ...)
+statuses.user_timeline(roauth, uid, screen_name, count = 20, page = 1,
+  base_app = 0, feature = 0, trim_user = 0, ...)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -35,25 +34,25 @@
   \item{...}{Other request parameters for this API.}
 }
 \value{
-  A list of weibos, each weibo contains: \item{idstr}{Weibo
-  ID of string} \item{created_at}{Created time}
-  \item{id}{Weibo ID} \item{text}{Weibo content}
-  \item{source}{Weibo source} \item{favorited}{Whether it
-  is favorited} \item{truncated}{Whether it is truncated}
-  \item{in_reply_to_status_id}{The reply's ID}
-  \item{in_reply_to_user_id}{Replyer ID}
-  \item{in_reply_to_screen_name}{Replyer nickname}
-  \item{mid}{Weibo MID} \item{bmiddle_pic}{Medium picture}
-  \item{original_pic}{Original picture}
-  \item{thumbnail_pic}{Thumbnail picture}
-  \item{reposts_count}{Repost count}
-  \item{comments_count}{Comment count}
-  \item{annotations}{Weibo annotation information}
-  \item{geo}{Geography information} \item{user}{User
-  profile that posted the weibo}
+A list of weibos, each weibo contains: \item{idstr}{Weibo
+ID of string} \item{created_at}{Created time}
+\item{id}{Weibo ID} \item{text}{Weibo content}
+\item{source}{Weibo source} \item{favorited}{Whether it is
+favorited} \item{truncated}{Whether it is truncated}
+\item{in_reply_to_status_id}{The reply's ID}
+\item{in_reply_to_user_id}{Replyer ID}
+\item{in_reply_to_screen_name}{Replyer nickname}
+\item{mid}{Weibo MID} \item{bmiddle_pic}{Medium picture}
+\item{original_pic}{Original picture}
+\item{thumbnail_pic}{Thumbnail picture}
+\item{reposts_count}{Repost count}
+\item{comments_count}{Comment count}
+\item{annotations}{Weibo annotation information}
+\item{geo}{Geography information} \item{user}{User profile
+that posted the weibo}
 }
 \description{
-  Return the latest weibos of one user.
+Return the latest weibos of one user.
 }
 \examples{
 \dontrun{
@@ -62,10 +61,10 @@ statuses.user_timeline(roauth, screen_name = "lijian001", count = 5)
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/statuses/user_timeline}
+\url{http://open.weibo.com/wiki/2/statuses/user_timeline}
 }
 \keyword{Weibo}
 

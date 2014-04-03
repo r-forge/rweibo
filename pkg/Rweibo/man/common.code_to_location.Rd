@@ -2,7 +2,7 @@
 \alias{common.code_to_location}
 \title{Return address names by address codes.}
 \usage{
-  common.code_to_location(roauth, codes)
+common.code_to_location(roauth, codes)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -12,10 +12,10 @@
   separated by comma.}
 }
 \value{
-  A list of address name.
+A list of address name.
 }
 \description{
-  Return address names by address codes.
+Return address names by address codes.
 }
 \examples{
 \dontrun{
@@ -24,10 +24,10 @@ common.code_to_location(roauth, codes = 100)
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/common/code_to_location}
+\url{http://open.weibo.com/wiki/2/common/code_to_location}
 }
 \keyword{Accounts}
 

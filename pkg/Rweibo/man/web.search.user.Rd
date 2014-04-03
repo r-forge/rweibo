@@ -2,7 +2,7 @@
 \alias{web.search.user}
 \title{Search user by nick name.}
 \usage{
-  web.search.user(screen_name, roauth = NULL)
+web.search.user(screen_name, roauth = NULL)
 }
 \arguments{
   \item{screen_name}{Nick name of a user.}
@@ -11,13 +11,13 @@
   \code{\link{createOAuth}}.}
 }
 \value{
-  A data.frame of weibos, each weibo contains:
-  \item{uid}{User ID} \item{url}{URL of user}
-  \item{follow}{Number of followers} \item{fan}{Number of
-  funs} \item{profile}{Number of weibos}
+A data.frame of weibos, each weibo contains:
+\item{uid}{User ID} \item{url}{URL of user}
+\item{follow}{Number of followers} \item{fan}{Number of
+funs} \item{profile}{Number of weibos}
 }
 \description{
-  Search user by nick name.
+Search user by nick name.
 }
 \examples{
 \dontrun{
@@ -25,7 +25,7 @@ web.search.user("lijian001")
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \keyword{Search}
 

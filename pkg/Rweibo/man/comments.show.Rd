@@ -2,8 +2,7 @@
 \alias{comments.show}
 \title{Return comments of one weibo by the weibo ID.}
 \usage{
-  comments.show(roauth, id, count = 20, page = 1,
-    filter_by_author = 0, ...)
+comments.show(roauth, id, count = 20, page = 1, filter_by_author = 0, ...)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -23,16 +22,16 @@
   \item{...}{Other request parameters for this API.}
 }
 \value{
-  A list of weibos, each weibo contains: \item{idstr}{Weibo
-  ID of string} \item{created_at}{Created time}
-  \item{id}{Weibo ID} \item{text}{Weibo content}
-  \item{source}{Weibo source} \item{mid}{Weibo MID}
-  \item{user}{User profile that posted the weibo}
-  \item{status}{The weibo that is commented}
-  \item{reply_comment}{Replied comment information}
+A list of weibos, each weibo contains: \item{idstr}{Weibo
+ID of string} \item{created_at}{Created time}
+\item{id}{Weibo ID} \item{text}{Weibo content}
+\item{source}{Weibo source} \item{mid}{Weibo MID}
+\item{user}{User profile that posted the weibo}
+\item{status}{The weibo that is commented}
+\item{reply_comment}{Replied comment information}
 }
 \description{
-  Return comments of one weibo by the weibo ID.
+Return comments of one weibo by the weibo ID.
 }
 \examples{
 \dontrun{
@@ -41,10 +40,10 @@ comments.show(roauth, id = "3543748358960699", count = 5)
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/comments/show}
+\url{http://open.weibo.com/wiki/2/comments/show}
 }
 \keyword{Comments}
 

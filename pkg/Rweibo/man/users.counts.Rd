@@ -2,7 +2,7 @@
 \alias{users.counts}
 \title{Return the followers counts,friends counts, and weibo counts of a batch of users.}
 \usage{
-  users.counts(roauth, uids)
+users.counts(roauth, uids)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -15,14 +15,13 @@
   \item{...}{Other request parameters for this API.}
 }
 \value{
-  A list of: \item{id}{Weibo ID}
-  \item{followers_count}{Count of followers}
-  \item{friends_count}{Count of friends}
-  \item{statuses_count}{Count of Weibos}
+A list of: \item{id}{Weibo ID} \item{followers_count}{Count
+of followers} \item{friends_count}{Count of friends}
+\item{statuses_count}{Count of Weibos}
 }
 \description{
-  Return the followers counts,friends counts, and weibo
-  counts of a batch of users.
+Return the followers counts,friends counts, and weibo
+counts of a batch of users.
 }
 \examples{
 \dontrun{
@@ -31,10 +30,10 @@ users.counts(roauth, uids = c("1318558807", "1869170057"))
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/users/counts}
+\url{http://open.weibo.com/wiki/2/users/counts}
 }
 \keyword{Users}
 

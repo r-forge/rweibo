@@ -2,8 +2,8 @@
 \alias{comments.to_me}
 \title{Return comments posted to the authenticating user.}
 \usage{
-  comments.to_me(roauth, count = 20, page = 1,
-    filter_by_author = 0, filter_by_source = 0, ...)
+comments.to_me(roauth, count = 20, page = 1, filter_by_author = 0,
+  filter_by_source = 0, ...)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -25,16 +25,16 @@
   \item{...}{Other request parameters for this API.}
 }
 \value{
-  A list of weibos, each weibo contains: \item{idstr}{Weibo
-  ID of string} \item{created_at}{Created time}
-  \item{id}{Weibo ID} \item{text}{Weibo content}
-  \item{source}{Weibo source} \item{mid}{Weibo MID}
-  \item{user}{User profile that posted the weibo}
-  \item{status}{The weibo that is commented}
-  \item{reply_comment}{Replied comment information}
+A list of weibos, each weibo contains: \item{idstr}{Weibo
+ID of string} \item{created_at}{Created time}
+\item{id}{Weibo ID} \item{text}{Weibo content}
+\item{source}{Weibo source} \item{mid}{Weibo MID}
+\item{user}{User profile that posted the weibo}
+\item{status}{The weibo that is commented}
+\item{reply_comment}{Replied comment information}
 }
 \description{
-  Return comments posted to the authenticating user.
+Return comments posted to the authenticating user.
 }
 \examples{
 \dontrun{
@@ -43,10 +43,10 @@ comments.to_me(roauth, count = 5)
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/comments/to_me}
+\url{http://open.weibo.com/wiki/2/comments/to_me}
 }
 \keyword{Comments}
 

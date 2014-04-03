@@ -2,8 +2,7 @@
 \alias{weibo.api}
 \title{Invoke an API directly by it's URL.}
 \usage{
-  weibo.api(roauth, URL, paramlist = list(),
-    httpmethod = c("GET", "POST"))
+weibo.api(roauth, URL, paramlist = list(), httpmethod = c("GET", "POST"))
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -16,10 +15,10 @@
   \item{httpmethod}{HTTP request method, 'GET' or 'POST'.}
 }
 \value{
-  A R object.
+A R object.
 }
 \description{
-  Invoke an API directly by it's URL.
+Invoke an API directly by it's URL.
 }
 \examples{
 \dontrun{
@@ -29,10 +28,10 @@ weibo.api(roauth, URL = "https://api.weibo.com/2/statuses/public_timeline.json",
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki}
+\url{http://open.weibo.com/wiki}
 }
 \keyword{Weibo}
 

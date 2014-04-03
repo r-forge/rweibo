@@ -2,8 +2,8 @@
 \alias{account.profile.school_list}
 \title{Return all of the schools.}
 \usage{
-  account.profile.school_list(roauth, province, city, area,
-    type = 1, capital = "A", keyword, count = 10)
+account.profile.school_list(roauth, province, city, area, type = 1,
+  capital = "A", keyword, count = 10)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -28,16 +28,16 @@
   \item{count}{The returned count.Default is 10.}
 }
 \value{
-  A list of: \item{id}{ID of the school} \item{name}{Name
-  of the school}
+A list of: \item{id}{ID of the school} \item{name}{Name of
+the school}
 }
 \description{
-  Return all of the schools.
+Return all of the schools.
 }
 \note{
-  You must provide a parameter either keyword or capital.
-  You must provide patameter "province" if you query by
-  "capital".
+You must provide a parameter either keyword or capital. You
+must provide patameter "province" if you query by
+"capital".
 }
 \examples{
 \dontrun{
@@ -46,10 +46,10 @@ account.profile.school_list(roauth, keyword = "China")
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/account/profile/school_list}
+\url{http://open.weibo.com/wiki/2/account/profile/school_list}
 }
 \keyword{Accounts}
 

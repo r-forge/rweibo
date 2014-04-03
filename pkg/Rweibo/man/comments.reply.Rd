@@ -2,8 +2,8 @@
 \alias{comments.reply}
 \title{Reply a comment.}
 \usage{
-  comments.reply(roauth, cid, id, comment,
-    without_mention = 0, comment_ori = 0, ...)
+comments.reply(roauth, cid, id, comment, without_mention = 0,
+  comment_ori = 0, ...)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -27,15 +27,14 @@
   \item{...}{Other request parameters for this API.}
 }
 \value{
-  A list of: \item{created_at}{Created time}
-  \item{id}{Weibo ID} \item{text}{Weibo content}
-  \item{source}{Weibo source} \item{mid}{Weibo MID}
-  \item{user}{User profile that posted the weibo}
-  \item{status}{The weibo that is commented}
-  \item{reply_comment}{Replied comment information}
+A list of: \item{created_at}{Created time} \item{id}{Weibo
+ID} \item{text}{Weibo content} \item{source}{Weibo source}
+\item{mid}{Weibo MID} \item{user}{User profile that posted
+the weibo} \item{status}{The weibo that is commented}
+\item{reply_comment}{Replied comment information}
 }
 \description{
-  Reply a comment.
+Reply a comment.
 }
 \examples{
 \dontrun{
@@ -44,10 +43,10 @@ comments.reply(roauth, cid = "3543759101243075", id = "3543748358960699", commen
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/comments/reply}
+\url{http://open.weibo.com/wiki/2/comments/reply}
 }
 \keyword{Comments}
 

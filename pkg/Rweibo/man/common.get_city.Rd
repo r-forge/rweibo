@@ -2,7 +2,7 @@
 \alias{common.get_city}
 \title{Return cities list.}
 \usage{
-  common.get_city(roauth, province, capital, language)
+common.get_city(roauth, province, capital, language)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -19,10 +19,10 @@
   English; Default is zh-cn.}
 }
 \value{
-  A list of cities.
+A list of cities.
 }
 \description{
-  Return cities list.
+Return cities list.
 }
 \examples{
 \dontrun{
@@ -31,10 +31,10 @@ common.get_city(roauth, province = "001042")
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/common/get_city}
+\url{http://open.weibo.com/wiki/2/common/get_city}
 }
 \keyword{Accounts}
 

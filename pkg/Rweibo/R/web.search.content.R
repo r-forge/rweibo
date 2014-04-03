@@ -108,7 +108,7 @@ web.search.content <- function(sword, page = 1, combinewith = NULL,
 	pagenode <- getNodeSet(pagetree, "//script")
 	
 	pagescript <- sapply(pagenode, xmlValue)
-	weiboline <- pagescript[grep("\"pid\":\"pl_weibo_feedlist", pagescript)]
+	weiboline <- pagescript[grep("\"pid\":\"pl_weibo_direct\"", pagescript)]
 	weibojson <- gsub("\\)$", "", gsub("^.*STK.pageletM.view\\(", "", weiboline))
 	if (length(weibojson) == 0) {
 		warning("Can not crawl any page now. May be forbidden by Sina temporarily.", call. = FALSE)
@@ -118,7 +118,7 @@ web.search.content <- function(sword, page = 1, combinewith = NULL,
 	
 	weibopage <- htmlParse(weibolist[["html"]], asText=TRUE, encoding = "UTF-8")
 	
-	weiboitem.attr <- getNodeSet(weibopage, "//dl[@class='feed_list']")
+	weiboitem.attr <- getNodeSet(weibopage, "//dl[@action-type='feed_list_item']")
 	weiboitem.con <- getNodeSet(weibopage, "//dd[@class='content']")
 	weiboitem.nores <- getNodeSet(weibopage, "//div[@class='pl_noresult']")
 	

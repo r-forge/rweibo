@@ -2,7 +2,7 @@
 \alias{comments.destroy_batch}
 \title{Delete a comment of authenticating user's.}
 \usage{
-  comments.destroy_batch(roauth, cids, ...)
+comments.destroy_batch(roauth, cids, ...)
 }
 \arguments{
   \item{roauth}{A OAuth object created by
@@ -15,15 +15,14 @@
   \item{...}{Other request parameters for this API.}
 }
 \value{
-  A list of: \item{created_at}{Created time}
-  \item{id}{Weibo ID} \item{text}{Weibo content}
-  \item{source}{Weibo source} \item{mid}{Weibo MID}
-  \item{user}{User profile that posted the weibo}
-  \item{status}{The weibo that is commented}
-  \item{reply_comment}{Replied comment information}
+A list of: \item{created_at}{Created time} \item{id}{Weibo
+ID} \item{text}{Weibo content} \item{source}{Weibo source}
+\item{mid}{Weibo MID} \item{user}{User profile that posted
+the weibo} \item{status}{The weibo that is commented}
+\item{reply_comment}{Replied comment information}
 }
 \description{
-  Delete a comment of authenticating user's.
+Delete a comment of authenticating user's.
 }
 \examples{
 \dontrun{
@@ -34,10 +33,10 @@ comments.destroy_batch(roauth, cids = as.character(com1$id))
 }
 }
 \author{
-  Jian Li <\email{rweibo@sina.com}>
+Jian Li <\email{rweibo@sina.com}>
 }
 \references{
-  \url{http://open.weibo.com/wiki/2/comments/destroy_batch}
+\url{http://open.weibo.com/wiki/2/comments/destroy_batch}
 }
 \keyword{Comments}
 
