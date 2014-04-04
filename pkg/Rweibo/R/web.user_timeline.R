@@ -93,34 +93,34 @@ web.user_timeline <- function(roauth, uid, pages = 1, wv = 5,
 	strurl <- paste("http://weibo.com/", uid, profile_ftype, "?page&page=", page, sep = "")
 	resXML <- getURL(strurl, curl = curl, .encoding = 'UTF-8')
 	resHTMLs <- .strextract(resXML, "<script>.+?</script>")[[1]]
-	resHTML <- resHTMLs[grep("\"pid\":\"pl_content_hisFeed\"", resHTMLs)][1]
-	nameHTML <- resHTMLs[grep("\"pid\":\"pl_profile_hisInfo\"", resHTMLs)][1]
-	infoHTML <- resHTMLs[grep("\"pid\":\"pl_profile_photo\"", resHTMLs)][1]
+	resHTML <- resHTMLs[grep("\"domid\":\"Pl_Core_OwnerFeed", resHTMLs)][1]
+	nameHTML <- resHTMLs[grep("pl.header.head.index", resHTMLs)][1]
+	infoHTML <- resHTMLs[grep("pl.header.head.index", resHTMLs)][1]
 	if (is.na(resHTML)) {
 		warning("Can not crawl any page now. May be forbidden by Sina temporarily.", call. = FALSE)
 		return(NULL)
 	}
-	weibojson <- gsub("\\)</script>$", "", gsub("^.*STK.pageletM.view\\(", "", resHTML))
+	weibojson <- gsub("\\)</script>$", "", gsub("^.*FM\\.view\\(", "", resHTML))
 	weibolist <- .fromJSON(weibojson)
 	
-	infojson <- gsub("\\)</script>$", "", gsub("^.*STK.pageletM.view\\(", "", infoHTML))
+	infojson <- gsub("\\)</script>$", "", gsub("^.*FM\\.view\\(", "", infoHTML))
 	infolist <- .fromJSON(infojson)
 	
-	namejson <- gsub("\\)</script>$", "", gsub("^.*STK.pageletM.view\\(", "", nameHTML))
-	namelist <- .fromJSON(namejson)
+	#namejson <- gsub("\\)</script>$", "", gsub("^.*STK.pageletM.view\\(", "", nameHTML))
+	#namelist <- .fromJSON(namejson)
 	
 	OUT <- list()
 	OUT[["df"]] <- .web.user_timeline(weibolist[["html"]])
 	
 	infopage <- htmlParse(infolist[["html"]], asText=TRUE, encoding = "UTF-8")
-	infonum <- as.numeric(gsub("[^0-9]", "", sapply(getNodeSet(infopage, "//ul/li"), xmlValue)))
-	namepage <- htmlParse(namelist[["html"]], asText=TRUE, encoding = "UTF-8")
+	#infonum <- as.numeric(gsub("[^0-9]", "", sapply(getNodeSet(infopage, "//ul/li"), xmlValue)))
+	#namepage <- htmlParse(namelist[["html"]], asText=TRUE, encoding = "UTF-8")
  
 	OUT[["info"]] <- list(
-			name = xmlValue(getNodeSet(namepage, "//span[@class='name']")[[1]])[1],
-			follow = as.integer(infonum[1]),
-			fan = as.integer(infonum[2]),
-			profile = as.integer(infonum[3])
+			name = xmlValue(getNodeSet(infopage, "//span[@class='name']")[[1]])[1],
+			follow =  as.numeric(.strextract(xmlValue(getNodeSet(infopage, "//li[@class='S_line1']")[[1]])[1], "[0-9]+")[[1]][1]),
+			fan = as.numeric(.strextract(xmlValue(getNodeSet(infopage, "//li[@class='follower S_line1']")[[1]])[1], "[0-9]+")[[1]][1]),
+			profile = as.numeric(.strextract(xmlValue(getNodeSet(infopage, "//li[@class='W_no_border']")[[1]])[1], "[0-9]+")[[1]][1])
 	)
 
 	return(OUT)

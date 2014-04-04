@@ -1,19 +1,19 @@
 
 
 
-##' Update the Rweibo package from R-forge automatically.
+##' Check whether there is a new version of Rweibo.
 ##' 
-##' @title Update the Rweibo package from R-forge automatically.
+##' @title Check whether there is a new version of Rweibo.
 ##' @return Invisible TRUE or FALSE. 
 ##'  
 ##' @author Jian Li <\email{rweibo@@sina.com}>
 ##' @keywords Weibo
 ##' @examples \dontrun{
 ##' 
-##' weibo.update()
+##' weibo.checkUpdate()
 ##' }
 
-weibo.update <- function() {
+weibo.checkUpdate <- function() {
 	
 	groupid <- "1054"
 	pkg <- "Rweibo"
@@ -24,7 +24,9 @@ weibo.update <- function() {
 	curversion <- as.character(packageVersion("Rweibo"))
 	comp <- compareVersion(curversion, newversion)
 	if (comp < 0) {
-		install.packages("Rweibo", repos="http://R-Forge.R-project.org")
+		cat(paste("There is a new version of Rweibo (", newversion, ") available!\n", sep = ""))
+		cat("You can install it from R-forge:\n")
+		cat("install.packages(\"Rweibo\", repos=\"http://R-Forge.R-project.org\")\n")
 		invisible(TRUE)
 	} else {
 		cat("The current 'Rweibo' package is the latest!\n")

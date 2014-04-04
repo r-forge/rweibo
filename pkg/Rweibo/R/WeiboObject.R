@@ -178,7 +178,7 @@ setRefClass("weibo2.0",
 					stop("")
 				}
 				loginURL <- .strextract(loginXML, "location.replace\\(.*?\\)")[[1]]
-				loginURL <- gsub("^.*?\"|\".*?$", "", loginURL)
+				loginURL <- gsub("'\\)$", "", gsub("^.*\\('", "", loginURL))
 				
 				cookieFile <- file.path(.self$appPath, paste(.self$oauthName, ".cookie", sep = ""))
 				loginCurl <- getCurlHandle(followlocation = TRUE, verbose = TRUE, 
