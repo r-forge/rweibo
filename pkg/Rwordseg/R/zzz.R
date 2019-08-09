@@ -1,42 +1,29 @@
-# TODO: Add comment
-# 
-# Author: jli
-###############################################################################
 
 .onAttach <- function(libname, pkgname ){
-	packageStartupMessage( paste("# Version:", utils:::packageDescription("Rwordseg", fields = "Version")) )
 	options(dic.dir = system.file("dict", package = "Rwordseg"))
-	options(app.dir = system.file("config", package = "Rwordseg"))
-	.cleanjars()
-	.jpackage(pkgname, lib.loc=libname)
-	dictpath <- chartr("\\", "/", file.path(getOption("app.dir"), "userdic"))
-	if (!exists(".RwordsegEnv", envir = .GlobalEnv)) {
-		assign(".RwordsegEnv", new.env(), envir = .GlobalEnv)
+	options(app.dir = .verifyFolder(file.path(Sys.getenv("APPDATA"), "Rwordseg")))
+	options(RwordsegAnalyzer = "hmm")
+	
+	assign(".RwordsegEnv", new.env(), envir = .GlobalEnv)
+	.loadModels(getOption("RwordsegAnalyzer"))
+	
+	if (!file.exists(file.path(getOption("app.dir"), "user.dic"))) {
+		write.table(data.frame(v1 = "R\u8BED\u8A00", v2 = 1, v3 = "n"), 
+				file = file.path(getOption("app.dir"), "user.dic"), 
+				sep = " ", row.names = FALSE, col.names = FALSE, quote = FALSE, fileEncoding = "UTF-8")
 	}
-	if (exists("Analyzer", envir = .RwordsegEnv)) {
-		rm("Analyzer", envir = .RwordsegEnv)
+	if (!file.exists(file.path(getOption("app.dir"), "dicmeta"))) {
+		dicmeta <- data.frame(id = "00000", dict = "builtin", time = as.character(Sys.time()),
+				size = 1, example = "", desc = "", start = 1, end = 1, stringsAsFactors = FALSE)
+		saveRDS(dicmeta, file.path(getOption("app.dir"), "dicmeta"))
 	}
-	Analyzer <- .jnew("org/jianl/rinterface/Analyzer")
-	.jcall(Analyzer, "V", "setDicPath", dictpath)
-	.jcall(Analyzer, "V", "initialAnalyzer")
-	assign("Analyzer", Analyzer, envir = .RwordsegEnv)
 	
-	data.trad <- readLines(system.file("config", "jianFan.dic", package = "Rwordseg"), encoding = "UTF-8")
-	data.trad <- strsplit(data.trad, split = "\t")
-	data.trad <- data.frame(Tra = paste(sapply(data.trad, FUN = function(X) X[1]), collapse = ""),
-			Sim = paste(sapply(data.trad, FUN = function(X) X[2]), collapse = ""), 
-			stringsAsFactors = FALSE)
-	assign("data.trad", data.trad, envir = .RwordsegEnv)
-	
-	tryload <- try(loadDict(), silent = TRUE)
-	if (inherits(tryload, "try-error")) warning(paste("Fail to load the user defined dictionary:\n", as.character(tryload)))
-	
-	segment.options(isNameRecognition = FALSE)
-	segment.options(isNumRecognition = TRUE)
-	segment.options(isQuantifierRecognition = TRUE)
+	cat("# \nThe defalut analyzer is 'hmm' implemented by native R codes, which is still in development.\n")
+	cat("If you want to improve the performance you can choose: \n")
+	cat("  - \"jiebaR\", a popular segmentation module, by running \"setAnalyzer('jiebaR')\".\n")
+	cat("  - \"fmm\", the easiest way of using forward maximum matching algorithm, by running \"setAnalyzer('fmm')\".\n")
 }
 
 .onUnload <- function(libpath) {
 	rm(.RwordsegEnv, envir = .GlobalEnv)
-	library.dynam.unload("Rwordseg", libpath)
 }

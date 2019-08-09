@@ -1,36 +1,24 @@
-
-
-##' Uninstall the user defined dictionary.
+##' Uninstall a user-defined dictionary.
 ##' 
-##' @title Uninstall the user defined dictionary.
-##' @param removedict Names of the dictionary to be uninstalled.
-##' @param remove Whether to remove the words immediately.
+##' @title Uninstall a dictionary.
+##' @param dictid The ID of the dictionary, which is shown in the result of \code{\link{listDict}}.
 ##' @return No results.
 ##' @author Jian Li <\email{rweibo@@sina.com}>
-uninstallDict <- function(removedict = listDict()$Name, remove = TRUE) {
-	if (length(removedict) > 0) {
-		
-		outfiles <- file.path(getOption("dic.dir"), paste(removedict, "dic", sep = "."))
-		for (i in 1:length(outfiles)) {
-			outfile <- outfiles[i]
-			if (file.exists(outfile)) {
-				if (identical(remove, TRUE)) {
-					tmp.dic <- readLines(outfile, encoding = "UTF-8")	
-					Encoding(tmp.dic) <- "UTF-8"
-					delwords <- try(sapply(strsplit(tmp.dic, "\t"), FUN = function(X) X[1]), silent = TRUE)
-					deleteWords(delwords, analyzer = get("Analyzer", envir = .RwordsegEnv), save = FALSE) 
-					cat(length(delwords))
-					cat(" words were removed! ... ")
-				}
-				.removeDictMeta(removedict[i])
-				try(unlink(outfile, force = TRUE), silent = TRUE)
-				cat("The dictionary '")
-				cat(removedict[i])
-				cat("' was uninstalled!\n")
-			}
-			
-		}
-	}
+##' 
+uninstallDict <- function(dictid) {
+	metadf0 <- readRDS(file.path(getOption("app.dir"), "dicmeta"))
+	dicdf0 <- read.table(file.path(getOption("app.dir"), "user.dic"), sep = " ", fileEncoding = "UTF-8", stringsAsFactors = FALSE)
+	metadf <- metadf0[metadf0$id != dictid, ]
+	dicdf <- dicdf0[-(metadf0[metadf0$id == dictid, "start"]:metadf0[metadf0$id == dictid, "end"]), ]
+	rownames(dicdf) <- NULL
+	rownames(metadf) <- NULL
+	write.table(dicdf, file = file.path(getOption("app.dir"), "user.dic"), 				
+			append = FALSE, sep = " ", row.names = FALSE, col.names = FALSE, quote = FALSE, fileEncoding = "UTF-8")
+	saveRDS(metadf, file.path(getOption("app.dir"), "dicmeta"))
+	cat("The dictionary \"")
+	cat(metadf0[metadf0$id == dictid, "dict"])
+	cat("\" was uninstalled!\n")
+	.loadModels(getOption("RwordsegAnalyzer"), renew = TRUE)
 }
 
 

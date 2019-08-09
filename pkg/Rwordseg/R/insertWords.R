@@ -1,32 +1,25 @@
-
-
-
-##' Insert new words into dictionary.
+##' When you restart R, all of the wordes will be removed. If you want to keep them please try \code{\link{installDict}}.
 ##' 
-##' @title Insert new words into dictionary.
+##' @title Insert new words into analyzer.
 ##' @param strwords Vector of words.
-##' @param analyzer A JAVA object of analyzer.
-##' @param strtype The type of the nature of word.
-##' @param numfreq The frequency of the word.
-##' @param save Whether to save to dictionary.
+##' @param analyzer Which analyzer.
 ##' @return No results.
 ##' @author Jian Li <\email{rweibo@@sina.com}>
-
-insertWords <- function(strwords, analyzer = get("Analyzer", envir = .RwordsegEnv), 
-		strtype = rep("userDefine", length(strwords)), numfreq = rep(1000, length(strwords)), 
-		save = FALSE) 
+##' 
+insertWords <- function(strwords, analyzer = c("jiebaR", "fmm")) 
 {
-	if (!is.character(strwords)) stop("Please input character!")
-	strwords <- tolower(strwords)
-	numfreq <- abs(as.integer(numfreq))
-	for (i in 1:length(strwords)) {
-		.jcall(analyzer, "V", "insertWord", strwords[i], strtype[i], as.character(numfreq[i]))
-	}
-	if (identical(save, TRUE)) {
-		tmp <- .writeDictFile(strwords, file.path(getOption("app.dir"), "userdic"), "add")
-		tmp <- .writeDictFile(strwords, file.path(getOption("app.dir"), "deldic"), "remove")
-	}
+	analyzer <- match.arg(package)
+	if (analyzer == "jiebaR") {
+		if (suppressWarnings(requireNamespace("jiebaR", quietly = TRUE))) {
+			.loadModels("jiebaR")
+			jiebaAnalyzer <- get("jiebaAnalyzer", envir = .RwordsegEnv)
+			jiebaR::new_user_word(jiebaAnalyzer, strwords, tags = rep("x", length(strwords)))
+			assign("jiebaAnalyzer", jiebaAnalyzer, envir = .RwordsegEnv)
+		}
+	} 
 }
+
+
 
 
 
