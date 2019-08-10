@@ -28,7 +28,7 @@ segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"),
 	
 	OUT <- do.call(paste0(".seg", analyzer), list(strwords = strwords, nature = nature))
 	
-	if (returnType == "tm") OUT <- sapply(outlist, paste, collapse = " ")
+	if (returnType == "tm") OUT <- sapply(OUT, paste, collapse = " ")
 	if (length(OUT) == 1) OUT <- OUT[[1]]
 	
 	return(OUT)
@@ -40,6 +40,7 @@ segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"),
 		stop("Package \"jiebaR\" is required!")
 	}
 	.loadModels("jiebaR")
+	.RwordsegEnv <- .verifyRwordsegEnv()
 	jiebaAnalyzer <- get("jiebaAnalyzer", envir = .RwordsegEnv)
 		
 	OUT <- jiebaR::segment(strwords, jiebaAnalyzer)
@@ -50,6 +51,7 @@ segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"),
 .segfmm <- function(strwords, nature = FALSE) {
 	
 	.loadModels("fmm")
+	.RwordsegEnv <- .verifyRwordsegEnv()
 	nmax <- min(nchar(strwords), 8)
 	
 	if (nmax == 1) {
@@ -88,6 +90,7 @@ segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"),
 
 .seghmm <- function(strwords, nature = FALSE) {
 	.loadModels("hmm")
+	.RwordsegEnv <- .verifyRwordsegEnv()
 	hmmAnalyzer <- get("hmmAnalyzer", envir = .RwordsegEnv)
 	
 	s1 <- strsplit(strwords, split = "")

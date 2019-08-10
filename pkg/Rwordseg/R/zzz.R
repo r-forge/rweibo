@@ -1,29 +1,33 @@
 
 .onAttach <- function(libname, pkgname ){
-	options(dic.dir = system.file("dict", package = "Rwordseg"))
+	options(model.dir = system.file("models", package = "Rwordseg"))
 	options(app.dir = .verifyFolder(file.path(Sys.getenv("APPDATA"), "Rwordseg")))
 	options(RwordsegAnalyzer = "hmm")
 	
-	assign(".RwordsegEnv", new.env(), envir = .GlobalEnv)
+	if (!exists(".RwordsegEnv", envir = .GlobalEnv)) {
+		envir0 = as.environment(1)
+		assign(".RwordsegEnv", new.env(), envir = envir0)
+	}
 	.loadModels(getOption("RwordsegAnalyzer"))
 	
 	if (!file.exists(file.path(getOption("app.dir"), "user.dic"))) {
-		write.table(data.frame(v1 = "R\u8BED\u8A00", v2 = 1, v3 = "n"), 
+		try(write.table(data.frame(v1 = "R\u8BED\u8A00", v2 = 1, v3 = "n"), 
 				file = file.path(getOption("app.dir"), "user.dic"), 
-				sep = " ", row.names = FALSE, col.names = FALSE, quote = FALSE, fileEncoding = "UTF-8")
+				sep = " ", row.names = FALSE, col.names = FALSE, quote = FALSE, fileEncoding = "UTF-8"), silent = TRUE)
 	}
 	if (!file.exists(file.path(getOption("app.dir"), "dicmeta"))) {
 		dicmeta <- data.frame(id = "00000", dict = "builtin", time = as.character(Sys.time()),
 				size = 1, example = "", desc = "", start = 1, end = 1, stringsAsFactors = FALSE)
-		saveRDS(dicmeta, file.path(getOption("app.dir"), "dicmeta"))
+		try(saveRDS(dicmeta, file.path(getOption("app.dir"), "dicmeta")), silent = TRUE)
 	}
 	
-	cat("# \nThe defalut analyzer is 'hmm' implemented by native R codes, which is still in development.\n")
-	cat("If you want to improve the performance you can choose: \n")
-	cat("  - \"jiebaR\", a popular segmentation module, by running \"setAnalyzer('jiebaR')\".\n")
-	cat("  - \"fmm\", the easiest way of using forward maximum matching algorithm, by running \"setAnalyzer('fmm')\".\n")
+	packageStartupMessage("# \nThe defalut analyzer is 'hmm' implemented by native R codes, which is still in development.")
+	packageStartupMessage("If you want to improve the performance you can choose: ")
+	packageStartupMessage("  - \"jiebaR\", a popular segmentation module, by running \"setAnalyzer('jiebaR')\".")
+	packageStartupMessage("  - \"fmm\", the easiest way of using forward maximum matching algorithm, by running \"setAnalyzer('fmm')\".")
 }
 
 .onUnload <- function(libpath) {
+	.RwordsegEnv <- .verifyRwordsegEnv()
 	rm(.RwordsegEnv, envir = .GlobalEnv)
 }

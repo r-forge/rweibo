@@ -28,7 +28,7 @@ Read a corpus vector and generate a HMM model file.
 }
 \examples{
 data(PD980105)
-m1 <- createHMM(PD980105)
+m1 <- createHMM(PD980105[1:10])
 names(m1)
 
 }

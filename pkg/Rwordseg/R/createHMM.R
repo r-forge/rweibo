@@ -10,11 +10,11 @@
 ##' @return a list from \code{\link[HMM]{initHMM}}.
 ##' @examples
 ##' data(PD980105)
-##' m1 <- createHMM(PD980105)
+##' m1 <- createHMM(PD980105[1:10])
 ##' names(m1)
 ##' 
 createHMM <- function(trainvec, outputfolder = NULL, sensplit = "/w", wordsplit = "\\s+", natruesplit = "/", removestr = "^.*?/m") {
-	if (!suppressWarnings(require("dplyr", quietly = TRUE))) {
+	if (!suppressWarnings(requireNamespace("dplyr", quietly = TRUE))) {
 		stop("Package \"dplyr\" is required!")
 	}
 	trainvec <- gsub(removestr, "", trainvec)
@@ -29,14 +29,17 @@ createHMM <- function(trainvec, outputfolder = NULL, sensplit = "/w", wordsplit 
 	reldf <- do.call("rbind", lapply(outlist, FUN = function(X) if(nrow(X) ==1) data.frame() else data.frame(src = X$status[1:(nrow(X) - 1)], tar = X$status[2:nrow(X)], stringsAsFactors = FALSE)))
 	outdf <- do.call("rbind", outlist)
 	
-	data(GBK, package = "tmcn", envir = environment())
+	curEnv <- environment()
+	utils::data(GBK, package = "tmcn", envir = curEnv)
+	GBK <- get("GBK", envir = curEnv)
 	outdf2 <- data.frame(word = c(setdiff(GBK$GBK, outdf$word), letters, LETTERS, 0:9, " "), status = "S", stringsAsFactors = FALSE)
 	outdf <- rbind(outdf, outdf2)
 	rownames(outdf) <- NULL
 	
-	adf <- summarise(group_by(reldf, src, tar), num = length(src))
+	src <- tar <- word <- status <- 0 # no use, just for cran check
+	adf <- dplyr::summarise(dplyr::group_by(reldf, src, tar), num = length(src))
 	adf$prob <- adf$num / sum(adf$num)
-	bdf <- summarise(group_by(outdf, word, status), num = length(word))
+	bdf <- dplyr::summarise(dplyr::group_by(outdf, word, status), num = length(word))
 	bdf.B <- bdf[bdf$status == "B", ]
 	bdf.B$prob <- bdf.B$num / sum(bdf.B$num)
 	bdf.E <- bdf[bdf$status == "E", ]

@@ -8,10 +8,11 @@
 ##' 
 insertWords <- function(strwords, analyzer = c("jiebaR", "fmm")) 
 {
-	analyzer <- match.arg(package)
+	analyzer <- match.arg(analyzer)
 	if (analyzer == "jiebaR") {
 		if (suppressWarnings(requireNamespace("jiebaR", quietly = TRUE))) {
 			.loadModels("jiebaR")
+			.RwordsegEnv <- .verifyRwordsegEnv()
 			jiebaAnalyzer <- get("jiebaAnalyzer", envir = .RwordsegEnv)
 			jiebaR::new_user_word(jiebaAnalyzer, strwords, tags = rep("x", length(strwords)))
 			assign("jiebaAnalyzer", jiebaAnalyzer, envir = .RwordsegEnv)

@@ -24,30 +24,22 @@
 	return(as.numeric(OUT))
 }
 
-.toSim <- function(string)
-{
-	transDf <- get("data.trad", envir = .RwordsegEnv)
-	OUT <- chartr(transDf$Tra, transDf$Sim, string)
-	return(OUT)
-}
-
 .verifyFolder <- function(...) {
 	folderpath <- file.path(...)
 	if (!file.exists(folderpath)) {
 		iscreated <- try(dir.create( folderpath, recursive = TRUE), silent = TRUE)
-		if (inherits(iscreated, "try-error")) stop("Can't create new folder!")
+		#if (inherits(iscreated, "try-error")) stop("Can't create new folder!")
 	}
 	return(folderpath)
 }
 
 .loadModels <- function(analyzer = c("all", "jiebaR", "hmm", "fmm"), renew = FALSE) {
 	analyzer <- match.arg(analyzer)
-	if (!exists(".RwordsegEnv", envir = .GlobalEnv)) {
-		assign(".RwordsegEnv", new.env(), envir = .GlobalEnv)
-	}
+	.RwordsegEnv <- .verifyRwordsegEnv()
+
 	if (analyzer == "all" || analyzer == "hmm") {
 		if (renew || !exists("hmmAnalyzer", envir = .RwordsegEnv)) {
-			hmmAnalyzer <- readRDS(system.file("dict", "hmmmodel.rds", package = "Rwordseg"))
+			hmmAnalyzer <- readRDS(file.path(getOption("model.dir"), "hmmmodel.rds"))
 			assign("hmmAnalyzer", hmmAnalyzer, envir = .RwordsegEnv)
 			cat("HMM model has been loaded.\n")
 		}
@@ -65,7 +57,8 @@
 	}
 	if (analyzer == "all" || analyzer == "fmm") {
 		if (renew || !exists("fmmAnalyzer", envir = .RwordsegEnv)) {
-			dic1 <- read.table(system.file("dict", "default.dic", package = "Rwordseg"), sep = " ", fileEncoding = "UTF-8", stringsAsFactors = FALSE)
+			dic1 <- readRDS(file.path(getOption("model.dir"), "dict.rds"))
+			names(dic1) <- c("V1", "V2", "V3")
 			dic2 <- read.table(file.path(getOption("app.dir"), "user.dic"), sep = " ", fileEncoding = "UTF-8", stringsAsFactors = FALSE)
 			dic2 <- dic2[!dic2$V1 %in% dic1$V1, ]
 			dic0 <- rbind(dic1, dic2)
@@ -78,8 +71,18 @@
 
 .getNature <- function(vec) {
 	OUT <- rep("x", length(vec))
+	.RwordsegEnv <- .verifyRwordsegEnv()
 	OUT[grepl("[\u4e00-\u9fa5]", vec)] <- sapply(vec[grepl("[\u4e00-\u9fa5]", vec)], FUN = function(X) as.character(try(get(X, envir = get("fmmAnalyzer", envir = .RwordsegEnv)), silent = TRUE)))
 	OUT[grepl("^Error", OUT)] <- "x"
+	return(OUT)
+}
+
+.verifyRwordsegEnv <- function() {
+	if (!exists(".RwordsegEnv", envir = .GlobalEnv)) {
+		envir0 = as.environment(1)
+		assign(".RwordsegEnv", new.env(), envir = envir0)
+	} 
+	OUT <- get(".RwordsegEnv", envir = .GlobalEnv)
 	return(OUT)
 }
 
