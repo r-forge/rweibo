@@ -4,12 +4,10 @@
 \alias{insertWords}
 \title{Insert new words into analyzer.}
 \usage{
-insertWords(strwords, analyzer = c("jiebaR", "fmm"))
+insertWords(strwords)
 }
 \arguments{
 \item{strwords}{Vector of words.}
-
-\item{analyzer}{Which analyzer.}
 }
 \value{
 No results.

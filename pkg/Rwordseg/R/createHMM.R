@@ -14,9 +14,6 @@
 ##' names(m1)
 ##' 
 createHMM <- function(trainvec, outputfolder = NULL, sensplit = "/w", wordsplit = "\\s+", natruesplit = "/", removestr = "^.*?/m") {
-	if (!suppressWarnings(requireNamespace("dplyr", quietly = TRUE))) {
-		stop("Package \"dplyr\" is required!")
-	}
 	trainvec <- gsub(removestr, "", trainvec)
 	l1 <- strsplit(trainvec, split = sensplit)
 	v1 <- gsub("\\s+", " ", gsub("[^\u4e00-\u9fa5]", " ", unlist(l1)))
@@ -36,10 +33,13 @@ createHMM <- function(trainvec, outputfolder = NULL, sensplit = "/w", wordsplit 
 	outdf <- rbind(outdf, outdf2)
 	rownames(outdf) <- NULL
 	
-	src <- tar <- word <- status <- 0 # no use, just for cran check
-	adf <- dplyr::summarise(dplyr::group_by(reldf, src, tar), num = length(src))
+	#adf <- dplyr::summarise(dplyr::group_by(reldf, src, tar), num = length(src))
+	adf <- stats::aggregate(reldf, by = list(src = reldf$src, tar = reldf$tar), FUN = length)[, 1:3]
+	names(adf) <- c("src", "tar", "num")
 	adf$prob <- adf$num / sum(adf$num)
-	bdf <- dplyr::summarise(dplyr::group_by(outdf, word, status), num = length(word))
+	#bdf <- dplyr::summarise(dplyr::group_by(outdf, word, status), num = length(word))
+	bdf <- stats::aggregate(outdf, by = list(word = outdf$word, status = outdf$status), FUN = length)[, 1:3]
+	names(bdf) <- c("word", "status", "num")
 	bdf.B <- bdf[bdf$status == "B", ]
 	bdf.B$prob <- bdf.B$num / sum(bdf.B$num)
 	bdf.E <- bdf[bdf$status == "E", ]
@@ -90,8 +90,9 @@ createHMM <- function(trainvec, outputfolder = NULL, sensplit = "/w", wordsplit 
 }
 
 .decodechar <- function(sv, cv) {
-	outv <- rep(0, length(cv))
 	if (length(cv) == 1) return(sv)
+	if (length(cv) == 0) return("")
+	outv <- rep(0, length(cv))
 	
 	cv[grepl("[a-zA-Z0-9]", sv)] <- "N"
 	for (i in 1:length(cv)) {

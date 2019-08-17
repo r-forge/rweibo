@@ -2,21 +2,16 @@
 ##' 
 ##' @title Insert new words into analyzer.
 ##' @param strwords Vector of words.
-##' @param analyzer Which analyzer.
 ##' @return No results.
 ##' @author Jian Li <\email{rweibo@@sina.com}>
 ##' 
-insertWords <- function(strwords, analyzer = c("jiebaR", "fmm")) 
+insertWords <- function(strwords) 
 {
-	analyzer <- match.arg(analyzer)
-	if (analyzer == "jiebaR") {
-		if (suppressWarnings(requireNamespace("jiebaR", quietly = TRUE))) {
-			.loadModels("jiebaR")
-			.RwordsegEnv <- .verifyRwordsegEnv()
-			jiebaAnalyzer <- get("jiebaAnalyzer", envir = .RwordsegEnv)
-			jiebaR::new_user_word(jiebaAnalyzer, strwords, tags = rep("x", length(strwords)))
-			assign("jiebaAnalyzer", jiebaAnalyzer, envir = .RwordsegEnv)
-		}
+	.RwordsegEnv <- .verifyRwordsegEnv()
+	if (exists("jiebaAnalyzer", envir = .RwordsegEnv)) {
+		jiebaAnalyzer <- get("jiebaAnalyzer", envir = .RwordsegEnv)
+		jiebaR::new_user_word(jiebaAnalyzer, strwords, tags = rep("x", length(strwords)))
+		assign("jiebaAnalyzer", jiebaAnalyzer, envir = .RwordsegEnv)
 	} 
 }
 

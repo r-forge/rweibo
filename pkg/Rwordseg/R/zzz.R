@@ -3,7 +3,9 @@
 	options(model.dir = system.file("models", package = "Rwordseg"))
 	options(app.dir = .verifyFolder(file.path(Sys.getenv("APPDATA"), "Rwordseg")))
 	options(RwordsegAnalyzer = "hmm")
-	
+	if (is.null(.getdboption("coreNLP.dir"))) {
+		.setdboption("coreNLP.dir", paste0(system.file("extdata", package = "coreNLP"), "/stanford-corenlp-full-2015-12-09"))
+	}
 	if (!exists(".RwordsegEnv", envir = .GlobalEnv)) {
 		envir0 = as.environment(1)
 		assign(".RwordsegEnv", new.env(), envir = envir0)
@@ -24,6 +26,7 @@
 	packageStartupMessage("# \nThe defalut analyzer is 'hmm' implemented by native R codes, which is still in development.")
 	packageStartupMessage("If you want to improve the performance you can choose: ")
 	packageStartupMessage("  - \"jiebaR\", a popular segmentation module, by running \"setAnalyzer('jiebaR')\".")
+	packageStartupMessage("  - \"coreNLP\", a R wrappers around Stanford CoreNLP, by running \"setAnalyzer('coreNLP')\".")
 	packageStartupMessage("  - \"fmm\", the easiest way of using forward maximum matching algorithm, by running \"setAnalyzer('fmm')\".")
 }
 

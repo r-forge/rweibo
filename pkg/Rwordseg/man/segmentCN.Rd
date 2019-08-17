@@ -2,16 +2,16 @@
 % Please edit documentation in R/segmentCN.R
 \name{segmentCN}
 \alias{segmentCN}
-\title{Sengment a sentence.}
+\title{Sengment Chinese text.}
 \usage{
-segmentCN(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"),
-  nature = FALSE, nosymbol = TRUE, returnType = c("vector", "tm"),
-  ...)
+segmentCN(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm",
+  "coreNLP"), nature = FALSE, nosymbol = TRUE,
+  returnType = c("vector", "tm"), ...)
 }
 \arguments{
 \item{strwords}{A charactor vector of Chinese sentence.}
 
-\item{analyzer}{One of 'default', 'jiebaR', 'hmm' and 'fmm'. Default is 'hmm'.}
+\item{analyzer}{One of 'default', 'jiebaR', 'hmm', 'fmm' and 'coreNLP'. Default is 'hmm'.}
 
 \item{nature}{Whether to recognise the nature of the words.}
 
@@ -26,7 +26,7 @@ to output a single string separated by space so that it can be used by \code{\li
 a vector of words (list if input is vecter) which have been segmented.
 }
 \description{
-A function to segment Chinese sentence into words.
+A function to segment Chinese text into words.
 }
 \examples{
 segmentCN("hello world!")

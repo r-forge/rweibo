@@ -4,17 +4,20 @@
 \alias{setAnalyzer}
 \title{Set the default analyzer.}
 \usage{
-setAnalyzer(analyzer = c("hmm", "jiebaR", "fmm"))
+setAnalyzer(analyzer = c("hmm", "jiebaR", "fmm", "coreNLP"),
+  coreNLPdir = "")
 }
 \arguments{
-\item{analyzer}{One of 'jiebaR', 'hmm' and 'fmm'.}
+\item{analyzer}{One of 'jiebaR', 'hmm', 'fmm' and 'coreNLP'.}
+
+\item{coreNLPdir, }{Set the coreNLP file path, only use for 'coreNLP'.}
 }
 \value{
 No results.
 }
 \description{
 The default analyzer is 'hmm', which is implemented by native R codes and still in development. 
-You can use 'jiebaR' instead. Or choose 'fmm' to try the forward maximum matching algorithm.
+You can use 'jiebaR' instead. Or 'coreNLP' to invoke Stanford CoreNLP. Or choose 'fmm' to try the forward maximum matching algorithm.
 }
 \examples{
 setAnalyzer("hmm")

@@ -1,8 +1,8 @@
-##' A function to segment Chinese sentence into words.
+##' A function to segment Chinese text into words.
 ##' 
-##' @title Sengment a sentence.
+##' @title Sengment Chinese text.
 ##' @param strwords A charactor vector of Chinese sentence.
-##' @param analyzer One of 'default', 'jiebaR', 'hmm' and 'fmm'. Default is 'hmm'.
+##' @param analyzer One of 'default', 'jiebaR', 'hmm', 'fmm' and 'coreNLP'. Default is 'hmm'.
 ##' @param nature Whether to recognise the nature of the words.
 ##' @param nosymbol Whether to keep symbols in the sentence. Default is TRUE, means no symbols kept.
 ##' @param returnType Default is a string vector but we also can choose 'tm' 
@@ -13,7 +13,7 @@
 ##' @examples
 ##' segmentCN("hello world!")
 ##' 
-segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"), 
+segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm", "coreNLP"), 
 		nature = FALSE, nosymbol = TRUE, returnType = c("vector", "tm"), ...) 
 {
 	if (!is.character(strwords)) stop("Please input character!")
@@ -29,7 +29,7 @@ segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"),
 	OUT <- do.call(paste0(".seg", analyzer), list(strwords = strwords, nature = nature))
 	
 	if (returnType == "tm") OUT <- sapply(OUT, paste, collapse = " ")
-	if (length(OUT) == 1) OUT <- OUT[[1]]
+	if (length(OUT) == 1 && analyzer != "fmm") OUT <- OUT[[1]]
 	
 	return(OUT)
 }
@@ -44,17 +44,18 @@ segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"),
 	jiebaAnalyzer <- get("jiebaAnalyzer", envir = .RwordsegEnv)
 		
 	OUT <- jiebaR::segment(strwords, jiebaAnalyzer)
+	OUT <- lapply(OUT, paste0, "")
 	if (nature) OUT <- lapply(OUT, jiebaR::vector_tag, jiebaAnalyzer)
 	return(OUT)
 }
 
 .segfmm <- function(strwords, nature = FALSE) {
-	
+	if (length(strwords) > 1) return(lapply(strwords,.segfmm, nature))
 	.loadModels("fmm")
 	.RwordsegEnv <- .verifyRwordsegEnv()
 	nmax <- min(nchar(strwords), 8)
 	
-	if (nmax == 1) {
+	if (nmax <= 1) {
 		n1 <- try(get(strwords, envir = get("fmmAnalyzer", envir = .RwordsegEnv)), silent = TRUE)
 		if (nature) {
 			if (inherits(n1, "try-error")) n1 <- "x"
@@ -94,8 +95,8 @@ segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"),
 	hmmAnalyzer <- get("hmmAnalyzer", envir = .RwordsegEnv)
 	
 	s1 <- strsplit(strwords, split = "")
-	sr <- lapply(s1, FUN = function(X) gsub("[^\u4e00-\u9fa5a-zA-Z0-9]", " ", X))
-	s2 <- lapply(sr, FUN = function(X) viterbi(hmm = hmmAnalyzer, X))
+	sr <- lapply(s1, FUN = function(X) gsub("\\s+", " ", gsub("[^\u4e00-\u9fa5a-zA-Z0-9]", " ", X)))
+	s2 <- lapply(sr, FUN = function(X) if (length(X) > 1) viterbi(hmm = hmmAnalyzer, X) else X)
 	OUT <- lapply(1:length(s1), FUN = function(X) .decodechar(s1[[X]], s2[[X]]))
 	if (nature) {
 		.loadModels("fmm")
@@ -104,6 +105,15 @@ segmentCN <- function(strwords, analyzer = c("default", "hmm", "jiebaR", "fmm"),
 	return(OUT)
 }
 	
-	
-	
+.segcoreNLP <- function(strwords, nature = FALSE) {
+	.loadModels("coreNLP")
+	outlist <- lapply(strwords, FUN = function(X) if (nzchar(strstrip(X))) coreNLP::annotateString(X) else "")
+	OUT <- lapply(outlist, FUN = function(X) if (nzchar(strstrip(X))) toUTF8(X$token$token) else "")
+	if (nature) {
+		POS <- lapply(outlist, FUN = function(X) if (nzchar(strstrip(X))) X$token$POS else "JJ")
+		OUT <- lapply(1:length(OUT), FUN = function(X) {Y <- OUT[[X]]; names(Y) <- POS[[X]]; Y})
+	}
+	return(OUT)
+}	
+
 	

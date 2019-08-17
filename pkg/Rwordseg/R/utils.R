@@ -33,7 +33,7 @@
 	return(folderpath)
 }
 
-.loadModels <- function(analyzer = c("all", "jiebaR", "hmm", "fmm"), renew = FALSE) {
+.loadModels <- function(analyzer = c("all", "jiebaR", "hmm", "fmm", "coreNLP"), renew = FALSE) {
 	analyzer <- match.arg(analyzer)
 	.RwordsegEnv <- .verifyRwordsegEnv()
 
@@ -67,6 +67,21 @@
 			cat("FMM model has been loaded.\n")
 		}
 	}
+	if (analyzer == "all" || analyzer == "coreNLP") {
+		if (suppressWarnings(requireNamespace("coreNLP", quietly = TRUE))) {
+			if (renew || !exists("coreNLPAnalyzer", envir = .RwordsegEnv)) {
+				if (!file.exists(.getdboption("coreNLP.dir"))) {
+					stop("There are no required jar files, please:\n  - run \"coreNLP::downloadCoreNLP()\" or\n  - download and unzip \"stanford-corenlp-full-2015-12-09\" and run \"setAnalyzer('coreNLP', coreNLPdir = 'thefolderpath')\" at the first time.")
+				} else {
+					coreNLP::initCoreNLP(.getdboption("coreNLP.dir"), type = "chinese",  mem = "2g")
+					assign("coreNLPAnalyzer", TRUE, envir = .RwordsegEnv)
+					cat("coreNLP model has been loaded.\n")
+				}
+			} 
+		} else {
+			cat("\"coreNLP\" has not been installed.\n")
+		}
+	}
 }
 
 .getNature <- function(vec) {
@@ -84,5 +99,25 @@
 	} 
 	OUT <- get(".RwordsegEnv", envir = .GlobalEnv)
 	return(OUT)
+}
+
+.getdboption <- function(var) {
+	if (!file.exists(file.path(getOption("app.dir"), "option.rds"))) {
+		option <- list()
+		try(saveRDS(option, file = file.path(getOption("app.dir"), "option.rds")), silent = TRUE)
+	} else {
+		option <- readRDS(file.path(getOption("app.dir"), "option.rds"))
+		option[[var]]
+	}
+}
+
+.setdboption <- function(var, val) {
+	if (!file.exists(file.path(getOption("app.dir"), "option.rds"))) {
+		option <- list()
+	} else {
+		option <- readRDS(file.path(getOption("app.dir"), "option.rds"))
+	}
+	option[[var]] <- val
+	try(saveRDS(option, file = file.path(getOption("app.dir"), "option.rds")), silent = TRUE)
 }
 
